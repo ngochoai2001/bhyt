@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html   lang="vi">
 
 <head>
     <meta charset="UTF-8">
@@ -13,39 +13,7 @@
 <div class="report_info">
     <h1 style="text-align: center;background-color: white;width: 100%;">BÁO CÁO</h1>
     <a class="nav-brand" th:href="@{/customers/home}"style="width: 6%;font-size: 16px;text-align: center"> BACK </a>
-    <div style="width: 40%;">
-        <span class="report_info_end">Bộ lọc thời gian</span>
-        <div class="report_info_start">
-            <span class="report_info_title"> Ngày bắt đầu </span>
-            <span>:</span>
-            <select id="dayStart" onchange="checkValid()">
-                <option value="">--day--</option>
-            </select>
-            <select id="monthStart" onchange="checkStart(), checkValid()">
-                <option value="">--month--</option>
-            </select>
-            <select id="yearStart" onchange="checkStart(), checkValid()">
-                <option value="">--year--</option>
-            </select>
-        </div>
-        <div class="report_info_start">
-            <span class="report_info_title"> Ngày kết thúc </span>
-            <span>:</span>
-            <select id="dayEnd" onchange="checkValid()">
-                <option value="">--day--</option>
-            </select>
-            <select id="monthEnd" onchange="checkEnd(), checkValid()">
-                <option value="">--month--</option>
-            </select>
-            <select id="yearEnd" onchange="checkEnd(), checkValid()">
-                <option value="">--year--</option>
-            </select>
-        </div>
-        <div>
-            <p id="error"></p>
-            <input id="dayS" class="hide">
-            <input id="dayE" class="hide">
-        </div>
+    <div style="width:10%;">
     </div>
 
 
@@ -64,14 +32,9 @@
                 <option value="" selected>Chọn quận huyện</option>
             </select>
         </div>
-        <div class="report_info_address">
-            <span class="report_info_title">Xã, phường</span>
-            <select class="form-select form-select-sm" id="ward" aria-label=".form-select-sm" onclick="createWard()">
-                <option value="" selected>Chọn xã phường</option>
-            </select>
-        </div>
+
     </div>
-    <form th:action="@{/customers/home/viewlist}" th:object="${data}" method="POST" class="">
+    <form th:action="@{/hicard/home/viewlist}" th:object="${request}" method="POST" class="">
         <div class="form-group hide">
             <label> Student First Name </label>
             <input type="text" name="province" id="inputCity" th:field="*{province}" class="form-control" placeholder="Enter Student First Name" />
@@ -80,19 +43,16 @@
             <label> Student Last Name </label>
             <input type="text" name="district" id="inputDistrict" th:field="*{district}" class="form-control" placeholder="Enter Student Last Name" />
         </div>
-        <div class="form-group hide">
-            <label> Student Email </label>
-            <input type="text" name="ward" id="inputWard" th:field="*{ward}" class="form-control" placeholder="Enter Student Email" />
+
+        <div class="form-group ">
+            <label> Ngày bắt đầu </label>
+            <input type="date" name="dateStart"  th:field="*{dateStart}" class="form-control" placeholder="Enter Student Last Name" />
         </div>
-        <div class="form-group hide">
-            <label> Student Last Name </label>
-            <input type="text" name="dateStart" id="inputStart" th:field="*{dateStart}" class="form-control" placeholder="Enter Student Last Name" />
+        <div class="form-group  ">
+            <label> Ngày kết thúc</label>
+            <input type="date" name="dateEnd"  th:field="*{dateEnd}" class="form-control" placeholder="Enter Student Last Name" />
         </div>
-        <div class="form-group hide">
-            <label> Student Last Name </label>
-            <input type="text" name="dateEnd" id="inputEnd" th:field="*{dateEnd}" class="form-control" placeholder="Enter Student Last Name" />
-        </div>
-        <div class="box-footer">
+        <div >
             <button type="submit" class="button login__submit">
                 Lọc dữ liệu
             </button>
@@ -105,28 +65,28 @@
         <th> STT </th>
         <th> Họ và tên </th>
         <th> Mã bảo hiểm </th>
+        <th> Căn cước</th>
+        <th> Ngày sinh</th>
+        <th> Giới tính</th>
         <th> Số điện thoại </th>
-        <th> Địa chỉ </th>
         <th> Ngày tham gia </th>
         <th> Ngày kết thúc </th>
-        <th> Phương thức đóng phí</th>
-        <th> Phí bảo hiểm </th>
-        <th> Ghi chú </th>
+
     </tr>
     </thead>
 
     <tbody>
-    <tr th:each = "cus, i: ${listCustomers}">
+    <tr th:each = "cus, i: ${listHICard}">
         <td th:text="${i.index + 1}"></td>
         <td th:text = "${cus.name}"></td>
         <td th:text = "${cus.code}"></td>
+        <td th:text = "${cus.idCardNum}"></td>
+        <td th:text = "${cus.dob}"></td>
+        <td th:text = "${cus.gender}"></td>
         <td th:text = "${cus.phone}"></td>
-        <td th:text = "${cus.getHome() +', '+ cus.getWard() +', '+ cus.getDistrict() +', '+ cus.getProvince()}"></td>
         <td th:text = "${cus.dateStart}"></td>
         <td th:text = "${cus.dateEnd}"></td>
-        <td th:text = "${cus.method}"></td>
-        <td th:text = "${cus.price}"></td>
-        <td th:text = "${cus.note}"></td>
+
     </tr>
     </tbody>
 </table>
@@ -139,7 +99,6 @@
 <script>
     var citis = document.getElementById("city");
     var districts = document.getElementById("district");
-    var wards = document.getElementById("ward");
     var Parameter = {
         url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
         method: "GET",
@@ -156,7 +115,6 @@
         }
         citis.onchange = function() {
             district.length = 1;
-            ward.length = 1;
             if (this.value != "") {
                 const result = data.filter(n => n.Id === this.value);
 
@@ -165,17 +123,7 @@
                 }
             }
         };
-        district.onchange = function() {
-            ward.length = 1;
-            const dataCity = data.filter((n) => n.Id === citis.value);
-            if (this.value != "") {
-                const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
 
-                for (const w of dataWards) {
-                    wards.options[wards.options.length] = new Option(w.Name, w.Id);
-                }
-            }
-        };
     }
 </script>
 <script th:src="@{/js/app.js}"></script>

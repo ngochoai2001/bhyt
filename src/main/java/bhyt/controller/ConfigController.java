@@ -19,13 +19,13 @@ public class ConfigController {
         this.configService = configService;
     }
 
-    @GetMapping("/customers/home/config")
+    @GetMapping("/hicard/home/config")
     public String editStudentForm( Model model) {
         model.addAttribute("config", configService.findConfig(1L));
         return "config";
     }
 
-    @PostMapping("/customers/home/config")
+    @PostMapping("/hicard/home/config")
     public String updateStudent(@ModelAttribute("config") Config config,
                                 Model model) {
         Config old = configService.findConfig(1L);
@@ -46,6 +46,10 @@ public class ConfigController {
         old.setFarmer(config.getFarmer());
         configService.updateConfig(old);
         return "config";
+    }
+    @GetMapping("/test")
+    public String test(){
+        return "list";
     }
 
 }

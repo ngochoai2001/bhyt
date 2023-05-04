@@ -17,7 +17,7 @@
     <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
       <h1 class = "text-center"> Update Config </h1>
       <div class = "card-body">
-        <form th:action="@{/customers/home/config}" th:object = "${config}" method="POST">
+        <form th:action="@{/hicard/home/config}" th:object = "${config}" method="POST">
           <div class ="form-group">
             <label> Lương cơ sở </label>
             <input
@@ -25,7 +25,7 @@
                     name = "salary"
                     th:field = "*{salary}"
                     class = "form-control"
-                    placeholder="Enter Student First Name"
+                    placeholder="Lương cơ sở"
             />
           </div>
 
@@ -36,7 +36,7 @@
                     name = "worker"
                     th:field = "*{worker}"
                     class = "form-control"
-                    placeholder="Enter Student Last Name"
+                    placeholder="Người lao động"
             />
           </div>
 
@@ -47,7 +47,7 @@
                     name = "retirement"
                     th:field = "*{retirement}"
                     class = "form-control"
-                    placeholder="Enter Student Email"
+                    placeholder="Lương hưu, mất sức lao động"
             />
           </div>
           <div class ="form-group">
@@ -57,7 +57,7 @@
                     name = "maternity"
                     th:field = "*{maternity}"
                     class = "form-control"
-                    placeholder="Enter Student First Name"
+                    placeholder="Nghỉ thai sản"
             />
           </div>
 
@@ -68,7 +68,7 @@
                     name = "unemployment"
                     th:field = "*{unemployment}"
                     class = "form-control"
-                    placeholder="Enter Student Last Name"
+                    placeholder="Trợ cấp thất nghiệp"
             />
           </div>
 
@@ -79,7 +79,7 @@
                     name = "other"
                     th:field = "*{other}"
                     class = "form-control"
-                    placeholder="Enter Student Email"
+                    placeholder="Đối tượng khác"
             />
           </div>
           <div class ="form-group">
@@ -89,7 +89,7 @@
                     name = "familyOne"
                     th:field = "*{familyOne}"
                     class = "form-control"
-                    placeholder="Enter Student First Name"
+                    placeholder="Người đóng thứ nhất"
             />
           </div>
 
@@ -100,7 +100,7 @@
                     name = "familyTwo"
                     th:field = "*{familyTwo}"
                     class = "form-control"
-                    placeholder="Enter Student Last Name"
+                    placeholder="Người đóng thứ 2"
             />
           </div>
 
@@ -111,7 +111,7 @@
                     name = "familyThree"
                     th:field = "*{familyThree}"
                     class = "form-control"
-                    placeholder="Enter Student Email"
+                    placeholder="Người đóng thứ 3"
             />
           </div>
           <div class ="form-group">
@@ -121,7 +121,7 @@
                     name = "familyFour"
                     th:field = "*{familyFour}"
                     class = "form-control"
-                    placeholder="Enter Student First Name"
+                    placeholder="Người đóng thứ 4"
             />
           </div>
 
@@ -132,7 +132,7 @@
                     name = "familyFive"
                     th:field = "*{familyFive}"
                     class = "form-control"
-                    placeholder="Enter Student Last Name"
+                    placeholder="Người đóng thứ 5"
             />
           </div>
           <div class ="form-group">
@@ -142,7 +142,7 @@
                     name = "familyThree"
                     th:field = "*{poor}"
                     class = "form-control"
-                    placeholder="Enter Student Email"
+                    placeholder="Huyện nghèo"
             />
           </div>
           <div class ="form-group">
@@ -152,7 +152,7 @@
                     name = "familyFour"
                     th:field = "*{nearPoor}"
                     class = "form-control"
-                    placeholder="Enter Student First Name"
+                    placeholder="Hộ cận nghèo"
             />
           </div>
 
@@ -163,7 +163,7 @@
                     name = "familyFive"
                     th:field = "*{student}"
                     class = "form-control"
-                    placeholder="Enter Student Last Name"
+                    placeholder="Học sinh sinh viên"
             />
           </div>
 
@@ -174,7 +174,7 @@
                     name = "farmer"
                     th:field = "*{farmer}"
                     class = "form-control"
-                    placeholder="Enter Student Email"
+                    placeholder="Nông lâm ngư nghiệp"
             />
           </div>
 
