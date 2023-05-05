@@ -15,6 +15,39 @@
 </head>
 
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/customers/home">Trang chủ</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/hicard/home/viewlist">Xem danh sách <span class="sr-only">(current)</span></a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="/hicard/home/report" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Xuất báo cáo
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/hicard/home/report/reportbyyear">Báo cáo tổng tiền bảo hiểm theo năm</a>
+          <a class="dropdown-item" href="/hicard/home/report/reportcomplete">Báo cáo danh sách cá nhân đã đóng phí  </a>
+          <a class="dropdown-item" href="/hicard/home/report/reportnotcomplete">Báo cáo danh sách cá nhân chưa đóng phí</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/hicard/home/config">Cấu hình</a>
+      </li>
+
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="/logout">
+      <span th:text="#{user.name}"></span>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Đăng xuất</button>
+    </form>
+  </div>
+</nav>
 <div class="container">
   <div class="screen_report">
     <div class="screen__content">

@@ -41,11 +41,7 @@ public class HealthInsuranceCardController {
     }
     @GetMapping("/hicard/home/report")
     public String report() { return "report"; }
-//    @GetMapping("/hicard/home/report/reportcomplete")
-//    public String listCustomersComplete(Model model) {
-//        model.addAttribute("listCustomersComplete", customerService.getReportByCompleteFee());
-//        return "report_complete";
-//    }
+
     @PostMapping("/hicard/home/report/reportcomplete")
     public String listCustomersComplete(@ModelAttribute("data") HiReportBillRequest request, Model model) {
         model.addAttribute("listCustomersComplete", healthInsuranceCardService.getReportCompleteFee(request));

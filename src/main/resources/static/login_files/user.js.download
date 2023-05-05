@@ -1,0 +1,975 @@
+/* global contextPath, loaderGlobal, swal */
+var EmailGlobal = "";
+var timerInterVal;
+var User = {
+    clearMsg: function () {
+        $(".userName").text('');
+        $(".passWord").val('');
+        $(".passWord").text('');
+        $(".confirmPassWord").val('');
+        $(".confirmPassword").val('');
+        $(".email").text('');
+        $(".maVaiTro").text('');
+        $(".oldPassword").text('');
+        $(".newPassword").text('');
+        $(".error_username").text('');
+        $(".err_password").text('');
+        $(".err_confirmPassWord").text('');
+        $(".text-danger").text('');
+        $(".er_confirm").text('');
+    },
+    clearText: function () {
+        $('input:text').val('');
+        $('input:password').val('');
+        $('.textEmail').val('');
+    },
+    cleartTextAll: function () {
+        $('#oldPassword').val('');
+        $('#newPassword').val('');
+        $('#confirmPassword').val('');
+        $(".er_confirm").text("");
+    }
+};
+$(document).ready(function () {
+    loaderGlobal.hideLoader();
+    //  checkInputEmty();
+    var id = parseInt($("#id-user").attr("data-value"));
+    if ($("#id-user").val() === 'admin') {
+        $("#isActive-" + id).attr("disabled", true);
+        $(".slider-" + id).addClass('opacity');
+    }
+    $(".check-acc").unbind();
+    $(".check-acc").change(function () {
+        let id = $(this).prop('id').split('-')[1];
+        let isActive = $(this).is(':checked') ? 1 : 0;
+        let isActiveShow = $(this).is(':checked') ? true : "";
+        var status = "";
+        if (isActive == '1') {
+            status = "mở khóa";
+        } else {
+            status = "khóa";
+        }
+        swal({
+            title: 'Bạn có muốn ' + status + '  tài khoản?',
+            type: 'warning',
+            icon: 'warning',
+            buttons: {
+                confirm: {
+                    text: 'Đồng ý',
+                    className: 'btn btn-primary btn-custom'
+                },
+                cancel: {
+                    text: 'Hủy',
+                    visible: true,
+                    className: 'btn btn-secondary btn-custom-close'
+                }
+            }
+        }).then((willActive) => {
+            if (willActive) {
+                updateStatusAcc(id, isActive);
+            } else {
+                let ac = "";
+                if (isActiveShow === "") {
+                    ac = true;
+                }
+                $("#isActive-" + id).prop("checked", ac);
+            }
+        });
+
+    });
+    $(".showPass").unbind();
+    $(".showPass").click(function () {
+        var x = document.getElementById("passWord");
+        // var pass = $("#passWord").val();
+        let html = '';
+        if (x.type === "password") {
+            html += '<span class="ttgs-icon zmdi zmdi-eye " id="icon-eye"></span>'
+            x.type = "text";
+        } else {
+            html += '<span class="ttgs-icon zmdi zmdi-eye-off " id="icon-eye"></span>'
+            x.type = "password";
+        }
+        $(".showPass").html(html);
+    });
+
+    $(".user-modalShowDetail").unbind();
+    $(".user-modalShowDetail").click(function () {
+        var idInput = $(this).attr("data-filein-id");
+        $('#showModalDetailUser .user-modalUpdate').attr('data-filein-id', idInput);
+        GetDetailUser(idInput);
+    });
+    $("#modal").click(function () {
+        User.clearText();
+        User.clearMsg();
+        $('#chartModal').modal('show');
+    });
+    $(".show-changepass").unbind();
+    $(".show-changepass").click(function () {
+        User.clearMsg();
+        User.cleartTextAll();
+        $('#showModalChangePass').modal('show');
+    });
+    $(".btn-changepass-user").unbind();
+    $(".btn-changepass-user").click(function () {
+        $('#showModalChangePassUser').modal('show');
+    });
+    $("#btnDangNhap").click(function () {
+        $('.result2').removeClass('hidden');
+        $('.result2').html('Loading </br><div class="spinner-border text-dark"></div>');
+    });
+    $("#tblAddUser").unbind();
+    $("#tblAddUser").click(function () {
+        addUser();
+    });
+    $("#tblUpdateUser").unbind();
+    $("#tblUpdateUser").click(function () {
+        updateUser();
+    });
+    $(".user-tblDeleteUser").unbind();
+    $(".user-tblDeleteUser").click(function () {
+        var idInput = $(this).attr("data-filein-id");
+        swal({
+            title: 'Bạn có muốn xóa tài khoản?',
+            type: 'warning',
+            icon: 'warning',
+            buttons: {
+                confirm: {
+                    text: 'Đồng ý',
+                    className: 'btn btn-primary btn-custom'
+                },
+                cancel: {
+                    text: 'Hủy',
+                    visible: true,
+                    className: 'btn btn-secondary btn-custom-close'
+                }
+            }
+        }).then((willDelete) => {
+            if (willDelete) {
+                DeleteUser(idInput);
+            } else {
+
+            }
+        });
+    });
+    $("#btnChangePassword").unbind();
+    $("#btnChangePassword").click(function () {
+        swal({
+            title: 'Bạn có chắc chắn muốn đổi mật khẩu?',
+            type: 'warning',
+            icon: 'warning',
+            buttons: {
+                confirm: {
+                    text: 'Đồng ý',
+                    className: 'btn btn-primary btn-custom'
+                },
+                cancel: {
+                    text: 'Hủy',
+                    visible: true,
+                    className: 'btn btn-secondary btn-custom-close'
+                }
+            }
+
+        }).then((willAction) => {
+            if (willAction) {
+                changePassword();
+            } else {
+
+            }
+        });
+    });
+    $("#btnChangePasswordUser").unbind();
+    $("#btnChangePasswordUser").click(function () {
+        swal({
+            title: 'Bạn có chắc chắn muốn đổi mật khẩu?',
+            type: 'warning',
+            icon: 'warning',
+            buttons: {
+                confirm: {
+                    text: 'Đồng ý',
+                    className: 'btn btn-primary btn-custom'
+                },
+                cancel: {
+                    text: 'Hủy',
+                    visible: true,
+                    className: 'btn btn-secondary btn-custom-close'
+                }
+            }
+
+        })
+                .then((willAction) => {
+                    if (willAction) {
+                        changePassword();
+                    } else {
+
+                    }
+                });
+    });
+    $(".btnInputEmail").unbind();
+    $(".btnInputEmail").click(function () {
+        $('.result').removeClass('hidden');
+        $('.result').html('Loading </br><div class="spinner-border text-dark"></div>');
+        getsendEmail();
+    });
+    $(".btnKeyCodeAgain").click(function () {
+        $('.result').removeClass('hidden');
+        $('.result').html('Loading </br><div class="spinner-border text-dark"></div>');
+        getsendEmailAgain();
+    });
+    $(".btnKeyCode").unbind();
+    $(".btnKeyCode").click(function () {
+        $('.result1').removeClass('hidden');
+        $('.result1').html('Loading </br><div class="spinner-border text-dark"></div>');
+        getCodeKey();
+    });
+
+    $(".btnConfirmNewPass").unbind();
+    $(".btnConfirmNewPass").click(function () {
+        $('.result').removeClass('hidden');
+        $('.result').html('Loading </br><div class="spinner-border text-light"></div>');
+        changePasswordWhenForget();
+    });
+    $(".user-modalUpdate").unbind();
+    $(".user-modalUpdate").click(function () {
+        $('#showModalDetailUser').modal('hide');
+        User.clearMsg();
+        var idInput = $(this).attr("data-filein-id");
+        GetUpdateUser(idInput);
+    });
+    $("#btlQlUser").unbind();
+    $("#btlQlUser").click(function () {
+        GetHomeQLUser();
+    });
+    $(".tblResetPassword").unbind();
+    $(".tblResetPassword").click(function () {
+        var userName = $(this).attr("data-userName");
+        var email = $(this).attr("data-email");
+        swal({
+            title: 'Bạn có muốn đặt lại mật khẩu?',
+            type: 'warning',
+            icon: 'warning',
+            buttons: {
+                confirm: {
+                    text: 'Đồng ý',
+                    className: 'btn btn-primary btn-custom'
+                },
+                cancel: {
+                    text: 'Hủy',
+                    visible: true,
+                    className: 'btn btn-secondary btn-custom-close'
+                }
+            }
+
+        }).then((willReset) => {
+            if (willReset) {
+                resetPassword(userName, email);
+            }
+        });
+    });
+});
+function addUser() {
+    User.clearMsg();
+    var mavaiTro = $(".textMaVaiTro").val();
+    if (mavaiTro == 'Quản trị hệ thống') {
+        mavaiTro = 'admin';
+    } else {
+        mavaiTro = 'user';
+    }
+    var objectLogin = {
+        userName: $(".textUserName").val(),
+        passWord: $(".textPass").val(),
+        maVaiTro: mavaiTro,
+        confirmPassWord: $(".textConfirmPass").val(),
+        email: $(".textEmail").val()
+    };
+    loaderGlobal.showLoader();
+    $(".error_addUser").html('');
+    $.ajax({
+        type: "post",
+        url: contextPath + '/add-user',
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(objectLogin),
+        success: function (response) {
+            loaderGlobal.hideLoader();
+            if (response.error_code === "SUCCESSFUL") {
+                $(".modal").modal("hide");
+                swal({
+                    title: 'Thêm người dùng thành công',
+                    icon: 'success'
+                }).then((willReset) => {
+                    if (willReset) {
+                        location.reload();
+                    }
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 3000);
+            } else if (response.error_code === "-2") {
+                $(".error_addUser").html('Mật khẩu không trùng khớp !');
+            } else if (response.error_code === "-99") {
+                $(".userName").html('Tài khoản đã tồn tại trong hệ thống !');
+            } else if (response.error_code === "BAD_REQUEST") {
+                var validates = response.data === null ? [] : response.data;
+                for (var i = 0; i < validates.length; i++) {
+                    $("." + validates[i].field).text(validates[i].message);
+                }
+            } else {
+                swal({
+                    title: 'Thông báo',
+                    text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!',
+                    icon: 'warning',
+                    button: 'Đồng ý'
+                });
+            }
+        }
+    }).fail(function (j, t) {
+        loaderGlobal.hideLoader();
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!!',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+    });
+}
+function updateUser() {
+    var mavaiTro = $(".valueMaVaiTro").val();
+    var id = $(".valueId").val();
+    var trangThai = $("#isActive-" + id).is(':checked');
+    if (mavaiTro == 'Quản trị hệ thống') {
+        mavaiTro = 'admin';
+    } else {
+        mavaiTro = 'user';
+    }
+    var objectUpdate = {
+        id: id,
+        userName: $(".valueUsername").val(),
+        maVaiTro: mavaiTro,
+        email: $(".valueEmail").val(),
+        trangThai: trangThai
+    };
+    loaderGlobal.showLoader();
+    $.ajax({
+        type: "PUT",
+        url: contextPath + "/update-user/" + id,
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(objectUpdate),
+        success: function (response) {
+            var error_message = '';
+            loaderGlobal.hideLoader();
+            if (response.error_code === "SUCCESSFUL") {
+                $(".modal").modal("hide");
+                swal({
+                    title: 'Thông báo',
+                    text: 'Sửa thông tin tài khoản người dùng thành công',
+                    icon: 'success'
+                }).then((ok) => {
+                    if (ok) {
+                        location.reload();
+                    }
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 3000);
+            } else if (response.error_code === "BAD_REQUEST") {
+                var validates = response.data === null ? [] : response.data;
+                for (var i = 0; i < validates.length; i++) {
+                    $("." + validates[i].field).text(validates[i].message);
+                }
+            } else if (response.error_code === 'USER_NOT_EXIST') {
+                error_message = 'Tài khoản không tồn tại';
+            } else {
+                error_message = 'Sửa thông tin tài khoản người dùng thất bại';
+            }
+            if (error_message.length > 0) {
+                swal({
+                    title: 'Thông báo',
+                    text: error_message,
+                    icon: 'warning'
+                });
+            }
+        }
+    }).fail(function (j, t) {
+        loaderGlobal.hideLoader();
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!!',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+    });
+}
+function updateStatusAcc(id, statusAcc) {
+    var objectUpdate = {
+        id: id,
+        statusAcc: statusAcc
+    };
+    var id = objectUpdate.id;
+    loaderGlobal.showLoader();
+    $.ajax({
+        type: "PUT",
+        url: contextPath + "/update-status-user/" + id,
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(objectUpdate),
+        success: function (response) {
+            loaderGlobal.hideLoader();
+            if (response.error_code === "SUCCESSFUL") {
+                swal({
+                    title: 'Thông báo',
+                    text: 'Thay đổi Trạng thái người dùng thành công !',
+                    icon: 'success'
+                }).then((ok) => {
+                    if (ok) {
+                        location.reload();
+                    }
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 3000);
+            } else if (response.error_code === "USER_NOT_EXIST") {
+                $('#isActive-' + id).prop('checked', !statusAcc);
+                swal({
+                    title: 'Thông báo',
+                    text: 'Tài khoản không tồn tại!',
+                    icon: 'warning'
+                });
+            } else {
+                $('#isActive-' + id).prop('checked', !statusAcc);
+                swal({
+                    title: 'Thông báo',
+                    text: 'Thay đổi Trạng thái người dùng thất bại !',
+                    icon: 'warning'
+                });
+            }
+        }
+    }).fail(function (j, t) {
+        $('#isActive-' + id).prop('checked', !statusAcc);
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!!',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+        loaderGlobal.hideLoader();
+    });
+}
+function DeleteUser(idInput) {
+    var objectDele = {
+        id: idInput
+    };
+    var settings = {
+        url: contextPath + "/deleted-user/" + objectDele.id,
+        method: "DELETE",
+        data: JSON.stringify(objectDele),
+        timeout: 0
+    };
+    loaderGlobal.showLoader();
+    $.ajax(settings).done(function (response) {
+        loaderGlobal.hideLoader();
+        if (response.error_code === "SUCCESSFUL") {
+            swal({
+                title: 'Thông báo',
+                text: 'Xóa tài khoản thành công',
+                icon: 'success'
+            }).then((ok) => {
+                if (ok) {
+                    location.reload();
+                }
+            });
+            setTimeout(function () {
+                location.reload();
+            }, 3000);
+        } else {
+            swal({
+                title: 'Thông báo',
+                text: 'Xóa tài khoản thất bại',
+                icon: 'warning'
+            });
+        }
+    }).fail(function (jqXHR, textStatus) {
+        loaderGlobal.hideLoader();
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+    });
+}
+function changePassword() {
+    User.clearMsg();
+//    User.cleartTextAll();
+    var objectChange = {
+        oldPassword: $(".textOldPassword").val(),
+        newPassword: $(".textnewPassword").val(),
+        confirmPassword: $(".textconfirmPassword").val()
+    };
+    loaderGlobal.showLoader();
+    $("#error_summary").html('');
+    $.ajax({
+        type: "post",
+        url: contextPath + '/change-pass',
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(objectChange),
+        success: function (response) {
+            loaderGlobal.hideLoader();
+            if (response.error_code === "SUCCESSFUL") {
+                $(".modal").modal("hide");
+                swal({
+                    title: 'Đổi mật khẩu thành công',
+                    icon: 'success'
+                }).then((ok) => {
+                    location.reload();
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 3000);
+            } else if (response.error_code === "-3") {
+                $("#error_summary").html('Mật khẩu mới phải khác mật khẩu cũ !');
+            } else if (response.error_code === "-2") {
+                $("#error_summary").html('Mật khẩu không trùng khớp !');
+            } else if (response.error_code === "error-pass") {
+                $(".oldPassword").html('Mật khẩu cũ không đúng !');
+            } else if (response.error_code === "BAD_REQUEST") {
+                var validates = response.data === null ? [] : response.data;
+                for (var i = 0; i < validates.length; i++) {
+                    $("." + validates[i].field).text(validates[i].message);
+                }
+            } else {
+                swal({
+                    title: 'Thông báo',
+                    text: 'Đổi mật khẩu thất bại',
+                    icon: 'warning'
+                });
+            }
+        }
+    }).fail(function (j, t) {
+        loaderGlobal.hideLoader();
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!!',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+    });
+}
+function getsendEmailAgain() {
+    var object = {
+        email: EmailGlobal
+    };
+    loaderGlobal.showLoader();
+    $.ajax({
+        type: "post",
+        url: contextPath + '/get-email',
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(object),
+        success: function (response) {
+            loaderGlobal.hideLoader();
+            if (response.error_code === "SUCCESSFUL") {
+                $('.result').addClass('hidden');
+            } else if (response.error_code === "WAIT_REQUEST_CODE") {
+                $(".result").addClass('hidden');
+                var time = response.data;
+                if (!timerInterVal) {
+                    timerInterVal = setInterval(function () {
+                        if (time > 0) {
+//                        $('.btnKeyCodeAgain').prop("disabled", true);
+                            $(".err-key-code").html('Bạn vừa gửi yêu cầu vui lòng đợi ' + time + " giây!");
+                            time--;
+                        } else {
+//                        $('.btnKeyCodeAgain').prop("disabled", false);
+                            $(".err-key-code").html('');
+                            clearInterval(timerInterVal);
+                            timerInterVal = false;
+                        }
+                    }, 1000);
+                }
+            } else {
+                if (timerInterVal) {
+                    clearInterval(timerInterVal);
+                    timerInterVal = false;
+                }
+                swal({
+                    title: 'Thông báo',
+                    text: 'Gửi email thất bại !',
+                    icon: 'warning'
+
+                });
+            }
+        }
+    }).fail(function (j, t) {
+        loaderGlobal.hideLoader();
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+    });
+}
+function getsendEmail() {
+    var object = {
+        email: $("#gmail").val()
+    };
+    EmailGlobal = object.email;
+    $(".error_summary").html('');
+    loaderGlobal.showLoader();
+    $.ajax({
+        type: "post",
+        url: contextPath + '/get-email',
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(object),
+        success: function (response) {
+            loaderGlobal.hideLoader();
+            if (response.error_code === "SUCCESSFUL") {
+                $(".result").addClass('hidden');
+                $(".formEmail").addClass('hidden');
+                $(".formConfirm").removeClass('hidden');
+                swal({
+                    title: 'Bạn hãy kiểm tra email để lấy mã xác nhận!',
+                    icon: 'success',
+                    button: 'Đồng ý'
+                });
+            } else if (response.error_code === "BAD_REQUEST") {
+                $(".result").addClass('hidden');
+                var note = response.data[0];
+                $(".error_summary").html(note.message);
+                if (timerInterVal) {
+                    clearInterval(timerInterVal);
+                    timerInterVal = false;
+                }
+            } else if (response.error_code === "FAILED") {
+                if (timerInterVal) {
+                    clearInterval(timerInterVal);
+                    timerInterVal = false;
+                }
+                $(".result").addClass('hidden');
+                $(".error_summary").html('Email không tồn tại trong hệ thống !');
+            } else if (response.error_code === "WAIT_REQUEST_CODE") {
+                $(".result").addClass('hidden');
+                var time = response.data;
+                if (!timerInterVal) {
+                    timerInterVal = setInterval(function () {
+                        if (time > 0) {
+//                        $('.btnInputEmail').prop("disabled", true);
+                            $(".error_summary").html('Bạn vừa gửi yêu cầu vui lòng đợi ' + time + " giây!");
+                            time--;
+                        } else {
+//                        $('.btnInputEmail').prop("disabled", false);
+                            $(".error_summary").html('');
+                            clearInterval(timerInterVal);
+                            timerInterVal = false;
+                        }
+                    }, 1000);
+                }
+            }
+        }
+    }).fail(function (j, t) {
+        loaderGlobal.hideLoader();
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+    });
+}
+function getCodeKey() {
+    var object = {
+        keyCode: $("#keyCode").val(),
+        email: EmailGlobal
+    };
+    $(".err-key-code").html('');
+    loaderGlobal.showLoader();
+    $.ajax({
+        type: "post",
+        url: contextPath + '/get-key-code',
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(object),
+        success: function (response) {
+            $(".result1").addClass('hidden');
+            loaderGlobal.showLoader();
+            if (response.error_code === "SUCCESSFUL") {
+                $(".formChangePass").removeClass('hidden');
+                $(".formEmail").addClass('hidden');
+                $(".formConfirm").addClass('hidden');
+                if (timerInterVal) {
+                    clearInterval(timerInterVal);
+                    timerInterVal = false;
+                }
+            } else {
+                if (timerInterVal) {
+                    clearInterval(timerInterVal);
+                    timerInterVal = false;
+                }
+                $(".err-key-code").html('Mã code không chính xác !');
+            }
+        }
+    }).fail(function (j, t) {
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+        loaderGlobal.hideLoader();
+    });
+}
+
+function changePasswordWhenForget() {
+    User.clearMsg();
+    var objectChange = {
+        email: $("#gmail").val(),
+        newPassword: $("#newPass").val(),
+        confirmPassword: $("#confirmPass").val()
+    };
+    $("#error_summary").html('');
+    loaderGlobal.showLoader();
+    $.ajax({
+        type: "post",
+        url: contextPath + '/change-pass-forget',
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(objectChange),
+        success: function (response) {
+            loaderGlobal.hideLoader();
+            if (response.error_code === "SUCCESSFUL") {
+                swal({
+                    title: 'Thông báo',
+                    text: 'Đổi mật khẩu thành công',
+                    icon: 'success'
+                }).then((ok) => {
+                    if (ok) {
+                        location.href = contextPath + '/login';
+                    }
+                });
+                setTimeout(function () {
+                    location.href = contextPath + '/login';
+                }, 3000);
+            } else if (response.error_code === "-1") {
+                $(".error_username").html('Tên tài khoản không đúng !');
+            } else if (response.error_code === "-2") {
+                $(".error_username").html('Mật khẩu không trùng khớp !');
+            } else if (response.error_code === "BAD_REQUEST") {
+                var validates = response.data === null ? [] : response.data;
+                for (var i = 0; i < validates.length; i++) {
+                    $("." + validates[i].field).text(validates[i].message);
+                }
+            } else {
+                $(".result1").addClass('hidden');
+                swal({
+                    title: 'Thông báo',
+                    text: 'Đổi mật khẩu thất bại',
+                    icon: 'warning'
+
+                });
+            }
+        }
+    }).fail(function (j, t) {
+        loaderGlobal.hideLoader();
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau! !',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+    });
+}
+
+function GetDetailUser(idInput) {
+    var object = {
+        id: idInput
+    };
+    var settings = {
+        url: contextPath + "/user/" + object.id,
+        method: "POST",
+        data: JSON.stringify(object),
+        timeout: 0
+    };
+    loaderGlobal.showLoader();
+    let html = '';
+    let htmlMaVaiTro = '';
+    $.ajax(settings).done(function (response) {
+        loaderGlobal.hideLoader();
+        if (response.error_code === "SUCCESSFUL") {
+            var data = response.data;
+            $(".valueUsername").val(data.tenDangNhap);
+            $(".valueMaVaiTro").val(data.maVaiTro);
+            $(".valuePhone").val(data.soDienThoai);
+            $(".valueDonVi").val(data.tenDonVi);
+            if (data.maVaiTro === 'admin') {
+                htmlMaVaiTro += '<input type="text" class="form-control input-add" value="Quản trị hệ thống" readonly="readonly">';
+            } else if (data.maVaiTro === 'user') {
+                htmlMaVaiTro += '<input type="text" class="form-control input-add" value="Người dùng" readonly="readonly">';
+            }
+            $(".valueMaVaiTro").html(htmlMaVaiTro);
+            $(".valueEmail").val(data.taiKhoanMail);
+            $('#showModalDetailUser').modal('show');
+            if (data.trangThai === true) {
+                html += ' <input type="text" class="form-control input-add" readonly="readonly" value="Mở khóa">';
+            } else {
+                html += ' <input type="text" class="form-control input-add" readonly="readonly" value="Khóa">';
+            }
+            $(".valueStatuss").html(html);
+//            $(".valueId").val(data.id);
+
+            return;
+        } else {
+            swal({
+                title: 'Thông báo',
+                text: 'Lấy thông tin tài khoản thất bại',
+                icon: 'warning',
+                button: 'Đồng ý'
+            });
+        }
+    }).fail(function (j, t) {
+        loaderGlobal.hideLoader();
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+    });
+}
+function GetHomeQLUser() {
+    var settings = {
+        url: contextPath + "/home-user",
+        method: "GET"
+    };
+    loaderGlobal.showLoader();
+    $.ajax(settings).done(function (response) {
+        loaderGlobal.hideLoader();
+//        var rep = JSON.parse(response);
+        if (response.error_code === "SUCCESSFUL") {
+            location.href = contextPath + '/quan-ly-tai-khoan';
+        } else {
+            location.href = contextPath + '/login';
+        }
+    }).fail(function (j, t) {
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+        loaderGlobal.hideLoader();
+    });
+}
+function resetPassword(userName, email) {
+    var objectReset = {
+        userName: userName,
+        email: email
+    };
+    loaderGlobal.showLoader();
+    $.ajax({
+        type: "post",
+        url: contextPath + '/reset-password',
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(objectReset),
+        success: function (response) {
+            loaderGlobal.hideLoader();
+            if (response.error_code === "SUCCESSFUL") {
+                swal({
+                    title: 'Thông báo',
+                    text: 'Đặt lại mật khẩu thành công. Mật khẩu mới đã được gửi về email ' + email,
+                    icon: 'success'
+                }).then((ok) => {
+                    location.reload();
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 3000);
+            } else {
+                swal({
+                    title: 'Thông báo',
+                    text: 'Đặt lại mật khẩu thất bại',
+                    icon: 'warning'
+                });
+            }
+        }
+    }).fail(function (j, t) {
+        loaderGlobal.hideLoader();
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau! !',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+    });
+}
+function GetUpdateUser(idInput) {
+    var object = {
+        id: idInput
+    };
+    var settings = {
+        url: contextPath + "/user/" + object.id,
+        method: "POST",
+        data: JSON.stringify(object),
+        timeout: 0
+    };
+    loaderGlobal.showLoader();
+    let html = '';
+    let htmlMaVaiTro = '';
+    $.ajax(settings).done(function (response) {
+        loaderGlobal.hideLoader();
+        if (response.error_code === "SUCCESSFUL") {
+            var data = response.data;
+            $(".valueUsername").val(data.tenDangNhap);
+            $(".valueMaVaiTro").val(data.maVaiTro);
+            if (data.maVaiTro === 'admin') {
+
+                htmlMaVaiTro += '<option selected="selected" >Quản trị hệ thống</option>' +
+                        '<option >Người dùng</option>';
+            } else if (data.maVaiTro === 'user') {
+
+                htmlMaVaiTro += '<option selected="selected">Người dùng</option>' +
+                        '<option   >Quản trị hệ thống</option>';
+            }
+            $(".valueMaVaiTro").html(htmlMaVaiTro);
+            $(".valueEmail").val(data.taiKhoanMail);
+            $('#showModalUpdate').modal('show');
+            $("#status").html(html);
+            $(".valueId").val(data.id);
+            return;
+        } else {
+            swal({
+                title: 'Thông báo',
+                text: 'Lấy thông tin tài khoản thất bại',
+                icon: 'warning',
+                button: 'Đồng ý'
+            });
+        }
+    }).fail(function (j, t) {
+        loaderGlobal.hideLoader();
+        swal({
+            title: 'Thông báo',
+            text: 'Có lỗi xảy ra do sự cố hệ thống. Xin vui lòng thử lại sau!',
+            icon: 'warning',
+            button: 'Đồng ý'
+        });
+    });
+}
+function checkInputEmty() {
+    $(".login-input").unbind();
+    $(".login-input").change(function () {
+        let uName = $('#userName').val().trim();
+        let uPwd = $('#passWord').val().trim();
+        if (uName.length > 0 && uPwd.length > 0) {
+            $("#btnDangNhap").attr("disabled", false);
+        } else {
+            $("#btnDangNhap").attr("disabled", true);
+        }
+
+    });
+}
+$(document).ready(function () {
+    $('.btn:disabled').css('cursor', 'pointer');
+});

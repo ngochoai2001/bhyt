@@ -1,0 +1,350 @@
+/* global moment, contextPath */
+
+Array.prototype.groupBy = function (prop) {
+    return this.reduce(function (groups, item) {
+        const val = item[prop];
+        groups[val] = groups[val] || [];
+        groups[val].push(item);
+        return groups;
+    }, {});
+};
+
+var loaderGlobal = {
+    showLoader: function () {
+        $("body").addClass("loading");
+//        $("#loading-site").html('<div class="loader"><div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>');
+    },
+    hideLoader: function () {
+        $("body").removeClass("loading");
+//        $("#loading-site").html('');
+    }
+};
+async function downLoadImage(id) {
+
+    html2canvas($("." + id), {
+        onrendered: function (canvas) {
+            $(".previewImage-item").html(canvas);
+            var link = document.createElement('a');
+            link.download = 'your_pic_name.png';
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        }
+    });
+}
+
+async function downLoadImageJPG(id) {
+    $(".previewImage-item").html("");
+    html2canvas($("." + id), {
+        onrendered: function (canvas) {
+            $(".previewImage-item").html(canvas);
+            var link = document.createElement('a');
+            link.download = 'image.jpeg';
+            link.href = canvas.toDataURL("image/jpeg");
+            link.click();
+        }
+    });
+}
+function downLoadImagePDF(id) {
+    html2canvas($("." + id), {
+        onrendered: function (canvas) {
+            $('.previewImage-item').html("");
+            $('.previewImage-item').html(canvas);
+            var imgData = canvas.toDataURL("image/jpeg", 1.0);
+            // var pdf = new jsPDF("p", "mm", "a4");
+            var doc = new jsPDF('l', 'mm', [960, 450]);
+            doc.addImage(imgData, 'JPEG', 0, 0, 0, 0, 250, 120);
+            doc.save('image.pdf');
+        }
+    });
+}
+var common = {
+    percentageStr: "%",
+    isValidObj: function (v) {
+        return v !== undefined && v !== null ? true : false;
+    },
+    tinhTyLePhanTram: function (cr, sp) {
+
+        var obj = {};
+
+        if (cr === 0 && sp === 0) {
+            obj.tyLe = 0;
+            obj.isTang = 0;
+
+        } else if (cr === undefined || cr === null || sp === 0 || sp === undefined || sp === null) {
+            obj.tyLe = 100;
+            obj.isTang = true;
+        } else {
+
+            var tl = (parseFloat(cr) - parseFloat(sp)) / parseFloat(sp);
+            if (tl === -1) {
+                obj.tyLe = -100;
+            } else {
+                obj.tyLe = Math.abs((tl * 100).toFixed(0));
+            }
+
+            if (tl < 0 || tl === 0) {
+                obj.isTang = false;
+            } else {
+                obj.isTang = true;
+            }
+        }
+        return obj;
+    },
+    thoiGianCapNhat: function (s) {
+        var date = moment(s, 'yyyy-MM-DD HH:mm:ss').toDate();
+        if (date !== null && date !== undefined) {
+            var h = moment(date).format('HH') + 'h' + moment(date).format('mm');
+            var d = moment(date).format('DD/MM/YYYY');
+            return '<span><span class="ttgs-icon fas fa-clock mr-2"></span>Cập nhật lần cuối lúc ' + h + ', ngày ' + d + '</span>';
+        }
+        return '';
+    },
+    thoiGianCapNhatTinhKhoan: function (s) {
+        var date = moment(s, 'yyyy-MM-DD HH:mm:ss').toDate();
+        if (date !== null && date !== undefined) {
+            var h = moment(date).format('HH') + 'h' + moment(date).format('mm');
+            var d = moment(date).format('DD/MM/YYYY');
+            return '<span><span class="ttgs-icon fas fa-clock mr-2"></span>Tính khoán lần cuối lúc ' + h + ', ngày ' + d + '</span>';
+        }
+        return '';
+    },
+    convertThoiGianCapNhat: function (s) {
+        var date = moment(s, 'yyyy-MM-DD HH:mm:ss').toDate();
+        if (date !== null && date !== undefined) {
+            var h = moment(date).format('HH') + 'h' + moment(date).format('mm');
+            var d = moment(date).format('DD/MM/YYYY');
+            return '' + h + ', ngày ' + d + '';
+        }
+        return '';
+    },
+    numberWithCommas: function (x) {
+        if (x === undefined || x === null || x === 'NaN') {
+            return '0';
+        }
+        if (x === 0 || x === '0' || x === '-0' || x === -0) {
+            return '0';
+        }
+        x = x.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        if (x === 0 || x === '0' || x === '-0' || x === -0) {
+            return '0';
+        } else
+            return x;
+    },
+    numberWithCommasFixed2: function (x) {
+        if (x === undefined || x === null || x === 'NaN') {
+            return '0';
+        }
+        if (x === 0 || x === '0' || x === '-0' || x === -0) {
+            return '0';
+        }
+        x = x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        if (x === 0 || x === '0' || x === '-0' || x === -0) {
+            return '0';
+        } else
+            return x;
+    },
+    numberWithCommasFixed6: function (x) {
+        if (x === 0 || x === '0' || x === '-0' || x === -0) {
+            return '0';
+        }
+        x = x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        if (x === 0 || x === '0' || x === '-0' || x === -0) {
+            return '-';
+        } else
+            return x;
+    },
+    printWindow: function (divId) {
+        var divToPrint = document.getElementById(divId);
+        var newWin = window.open('', 'Print-Window');
+        newWin.document.open();
+        newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+        newWin.document.close();
+        setTimeout(function () {
+            newWin.close();
+        }, 10);
+    },
+    convertSoTienThanhChu: function (money) {
+        if (money > 1000000000) {
+            var tien = money / 1000000000;
+            return new DecimalFormat("#,###,00").format(tien) + " Tỷ";
+        } else if (money > 100000000) {
+            var tien = tien / 100000000;
+            return new DecimalFormat("#,###.00").format(tien) + " Trăm triệu";
+        } else if (money > 1000000) {
+            var tien = tien / 1000000;
+            return new DecimalFormat("#,###.00").format(tien) + " Triệu";
+        }
+        return new DecimalFormat("#,###.00").format(money);
+    }
+};
+
+$(function () {
+    let position = $('.header-child .show:not(.hidden) > div').length + 2;
+    $('.header-child .show:not(.hidden) > div:nth-child(' + position + ') a').prop('href', '#').prop('style', 'cursor: unset;color:#ff6262;');
+    $('.header-child .show:not(.hidden) > i:nth-child(' + (position + 1) + ')').remove();
+    var documentHeight = window.innerHeight;
+    var headerHight = $('header').height();
+    var footerHight = $('footer').height();
+    var minHeight = documentHeight - (footerHight + headerHight);
+    $('main').prop('style', 'min-height:' + minHeight + 'px');
+    $('[data-toggle="tooltip"]').tooltip();
+    loaderGlobal.hideLoader();
+    $('.btn-go-back').click(function () {
+        $('.header-child .show:not(.hidden) > div:last-child').prev().prev().find('a')[0].click();
+    });
+
+    var darkMode = $('#darkMode').val();
+    var theme = $('#ttgs-theme').val();
+    if (darkMode === "true") {
+        if (theme == '1') {
+            $('body').addClass('black');
+            $('#black').prop('checked', true);
+        } else {
+            $('#dark').prop('checked', true);
+            $('body').removeClass('black');
+        }
+        $('body').addClass('dark');
+        $(".content-chart-2").removeClass("hidden");
+        $(".content-chart-1").addClass("hidden");
+    } else {
+        $('#light').prop('checked', true);
+
+        $(".content-chart-1").removeClass("hidden");
+        $(".content-chart-2").addClass("hidden");
+    }
+    $('input[name=colorMode]').change(function () {
+        var val = $(this).val();
+        if (val === 'dark') {
+            theme = 0;
+            darkMode = true;
+            $('body').addClass('dark');
+            $('body').removeClass('black');
+            $(".content-chart-2").removeClass("hidden");
+            $(".content-chart-1").addClass("hidden");
+        } else if (val === 'black') {
+            darkMode = true;
+            theme = 1;
+            $('body').addClass('dark');
+            $('body').addClass('black');
+            $(".content-chart-2").removeClass("hidden");
+            $(".content-chart-1").addClass("hidden");
+        } else {
+            darkMode = false;
+            $('body').removeClass('dark');
+            $('body').removeClass('black');
+            $(".content-chart-1").removeClass("hidden");
+            $(".content-chart-2").addClass("hidden");
+        }
+        if (TLT) {
+            TLT.changeColor(darkMode);
+        }
+        changeDarkMode(darkMode, theme);
+    });
+
+//    var oldMap = new Map();
+//    oldMap.set("a", 10452);
+//    oldMap.set("b", 4012);
+//    oldMap.set("c", 3012);
+//    var newMap = new Map();
+//    newMap.set("a", 15098);
+//    newMap.set("b", 5098);
+//    newMap.set("e", 4123);
+//
+//    checkMapData(oldMap, newMap);
+});
+
+var count = 0;
+
+function changeDarkMode(darkMode, theme) {
+    var settings = {
+        "url": contextPath + "/darkMode/" + darkMode + '?theme=' + theme,
+        "method": "GET"
+    };
+    $.ajax(settings);
+}
+
+//  Auto Increase Data
+
+function createDataMinus(minusValue) {
+    var dataMinus = [];
+    var maxRangeOfRandomValue = minusValue / 10;
+    var totalRandomValue = 0;
+    for (var i = 0; i < 9; i++) {
+        var randomValue = Math.floor(Math.random() * (maxRangeOfRandomValue - (maxRangeOfRandomValue / 2)) + (maxRangeOfRandomValue / 2));
+        dataMinus.push(randomValue);
+        totalRandomValue = totalRandomValue + randomValue;
+    }
+    var finalValue = minusValue - totalRandomValue;
+    dataMinus.push(finalValue);
+    return dataMinus;
+}
+
+function checkMapData(mapDataOld, mapDataNew) {
+    var arrOld = [];
+    var arrNew = [];
+    var dataMinus = [];
+    var mapDataMinus = new Map();
+    var mapDataFinal = new Map();
+
+    // set data for arrOld and arrNew
+    mapDataNew.forEach((value, key) => {
+        var valueOld = mapDataOld.has(key) ? mapDataOld.get(key) : 0;
+        arrOld.push(valueOld);
+        arrNew.push(value);
+    });
+
+    // set data for dataMinus
+    for (var i = 0; i < arrNew.length; i++) {
+        var valueMinus = arrNew[i] - arrOld[i];
+        dataMinus.push(valueMinus);
+    }
+
+    // set data for mapDataMinus
+    for (var i = 0; i < dataMinus.length; i++) {
+        var arrMinus = createDataMinus(dataMinus[i]);
+        mapDataMinus.set(i, arrMinus);
+    }
+    // set data for mapDataFinal
+    for (var i = 0; i < 10; i++) {
+        var dataI = [];
+        mapDataMinus.forEach((value, key) => {
+            var elementMinus = value;
+            var dataAfterPlus = elementMinus[i] + arrOld[key];
+            dataI.push(dataAfterPlus);
+        });
+        arrOld = dataI;
+        mapDataFinal.set(i, dataI);
+    }
+    return mapDataFinal;
+}
+
+function fullandColseScreen() {
+//    $(document).keyup(function(e){
+//   if(e.which==122){
+//       e.preventDefault();//kill anything that browser may have assigned to it by default
+//       //do what ever you wish here :) 
+//       alert('F11 pressed');
+//       return false;
+//   }
+//});
+    $(".btn-screen").click(function () {
+        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+                (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+            if (document.documentElement.requestFullScreen) {
+                document.documentElement.requestFullScreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullScreen) {
+                document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (document.cancelFullScreen) {
+                document.cancelFullScreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+            }
+        }
+    });
+}

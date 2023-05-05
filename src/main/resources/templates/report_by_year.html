@@ -11,6 +11,40 @@
 </head>
 
 <body style="background: none;">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/customers/home">Trang chủ</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/hicard/home/viewlist">Xem danh sách <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/hicard/home/report" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Xuất báo cáo
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/hicard/home/report/reportbyyear">Báo cáo tổng tiền bảo hiểm theo năm</a>
+                    <a class="dropdown-item" href="/hicard/home/report/reportcomplete">Báo cáo danh sách cá nhân đã đóng phí  </a>
+                    <a class="dropdown-item" href="/hicard/home/report/reportnotcomplete">Báo cáo danh sách cá nhân chưa đóng phí</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/hicard/home/config">Cấu hình</a>
+            </li>
+
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="/logout">
+            <span th:text="#{user.name}"></span>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Đăng xuất</button>
+        </form>
+    </div>
+
+</nav>
 <nav class="nav_dark">
     <div style="height: 100%;color: white;width: 80%;display: flex; font-size: 23px">
         <a class="btn nav-master" th:href="@{/hicard/home/report/reportbyyear}">Báo cáo doanh thu theo năm</a>
@@ -57,7 +91,7 @@
             <input type="text" name="dateEnd" id="inputEnd" th:field="*{endYear}" class="form-control" placeholder="Nhập năm kết thúc" />
         </div>
         <div class="box-footer">
-            <button type="submit" class="button login__submit">
+            <button type="submit" id = "exportReport" class="button login__submit">
                 Lọc dữ liệu
             </button>
         </div>
@@ -92,11 +126,11 @@
     document.getElementById("inputStart").innerHTML = new Date().getFullYear();
     document.getElementById("inputEnd").innerHTML = new Date().getFullYear();
 
-    start.onchange = function (){
-        if(start.value > end.value){
-
-        }
-    }
+    // start.onchange = function (){
+    //     if(start.value > end.value){
+    //
+    //     }
+    // }
     var Parameter = {
         url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
         method: "GET",
@@ -123,6 +157,61 @@
         };
 
     }
+    var reportParameter = {
+        url: "http://localhost:8686/api/report/demo-report",
+        method: "GET",
+        responseType: "application/pdf",
+    };
+    var reportPromise = axios(reportParameter);
+    reportPromise.then(function(result) {
+        window.open(URL.createObjectURL(response.data));
+    });
+    function base64ToArrayBuffer(base64) {
+        var binaryString = window.atob(base64);
+        var binaryLen = binaryString.length;
+        var bytes = new Uint8Array(binaryLen);
+        for (var i = 0; i < binaryLen; i++) {
+            var ascii = binaryString.charCodeAt(i);
+            bytes[i] = ascii;
+        }
+        return bytes;
+    }
+
+    //save Byte[] array and download
+    function saveByteArray(reportName, byte) {
+        var blob = new Blob([byte]);
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        var fileName = reportName + ".pdf";
+        link.download = fileName;
+        link.click();
+    }
+
+    //in this case we are exporting a post based on id
+    document.getElementById("exportReport").onclick = function () {
+        axios(reportParameter);
+        reportPromise.then(function(result) {
+            window.open(URL.createObjectURL(response.data));
+        });
+    };
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "api/report/demo-report",
+    //         data: '{postId: "' + id + '" }',
+    //         contentType: "application/pdf",
+    //         success: function (response) {
+    //             if (response.d == '')
+    //                 alert('There is a problem exporting the file');
+    //             else {
+    //                 var sampleArr = base64ToArrayBuffer(response.d);
+    //                 saveByteArray("File-" + id, sampleArr);
+    //             }
+    //         },
+    //         failure: function (response) {
+    //             alert("Cannot export thefile: Error in calling Ajax");
+    //         }
+    //     });
+    // }
 </script>
 <script th:src="@{/js/app.js}"></script>
 </body>

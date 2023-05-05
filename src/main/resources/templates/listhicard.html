@@ -11,7 +11,7 @@
 
 <body style="background: none;">
 <div class="report_info">
-    <h1 style="text-align: center;background-color: white;width: 100%;">BÁO CÁO</h1>
+    <h1 style="text-align: center;background-color: white;width: 100%;">Danh sách cá nhân tham gia bảo hiểm</h1>
     <a class="nav-brand" th:href="@{/customers/home}"style="width: 6%;font-size: 16px;text-align: center"> BACK </a>
     <div style="width:10%;">
     </div>
@@ -20,14 +20,16 @@
 
     <div style="width: 40%;">
         <span class="report_info_end">Bộ lọc địa chỉ</span>
-        <div class="report_info_address">
-            <span class="report_info_title">Tỉnh, thành phố</span>
+        <div >
+            <label >Tỉnh, thành phố</label>
+            <span style="color: red;font-size: 30px">*</span>
             <select class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm" onclick="createCity()">
                 <option value="" selected>Chọn tỉnh thành</option>
             </select>
         </div>
-        <div class="report_info_address">
-            <span class="report_info_title">Quận, huyện</span>
+        <div >
+            <label >Quận, huyện</label>
+            <span style="color: red;font-size: 30px">*</span>
             <select class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm" onclick="createDistrict()">
                 <option value="" selected>Chọn quận huyện</option>
             </select>
@@ -37,6 +39,7 @@
     <form th:action="@{/hicard/home/viewlist}" th:object="${request}" method="POST" class="">
         <div class="form-group hide">
             <label> Student First Name </label>
+            <span  style="color: red;font-size: 30px">*</span>
             <input type="text" name="province" id="inputCity" th:field="*{province}" class="form-control" placeholder="Enter Student First Name" />
         </div>
         <div class="form-group hide">
@@ -46,15 +49,17 @@
 
         <div class="form-group ">
             <label> Ngày bắt đầu </label>
+            <span class="report_info_title" style="color: red;font-size: 30px">*</span>
             <input type="date" name="dateStart"  th:field="*{dateStart}" class="form-control" placeholder="Enter Student Last Name" />
         </div>
         <div class="form-group  ">
             <label> Ngày kết thúc</label>
+            <span class="report_info_title" style="color: red;font-size: 30px">*</span>
             <input type="date" name="dateEnd"  th:field="*{dateEnd}" class="form-control" placeholder="Enter Student Last Name" />
         </div>
         <div >
-            <button type="submit" class="button login__submit">
-                Lọc dữ liệu
+            <button id = "xemds" type="submit" class="button login__submit">
+                Xem danh sách
             </button>
         </div>
     </form>
@@ -108,6 +113,16 @@
     promise.then(function(result) {
         renderCity(result.data);
     });
+    var xemds = document.getElementById("district");
+    xemds.onclick = function (){
+        var inputCity = document.getElementById("inputCity");
+        var inputDistrict = document.getElementById("inputDistrict");
+        var dateStart = document.getElementsByName("dateStart");
+        var dateEnd = document.getElementById("dateEnd");
+        if(inputCity == undefined){
+
+        }
+    };
 
     function renderCity(data) {
         for (const x of data) {
