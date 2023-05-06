@@ -188,12 +188,12 @@
     }
 
     //in this case we are exporting a post based on id
-    document.getElementById("exportReport").onclick = function () {
-        axios(reportParameter);
-        reportPromise.then(function(result) {
-            window.open(URL.createObjectURL(response.data));
-        });
-    };
+    // document.getElementById("exportReport").onclick = function () {
+    //     axios(reportParameter);
+    //     reportPromise.then(function(result) {
+    //         window.open(URL.createObjectURL(response.data));
+    //     });
+    // };
     //     $.ajax({
     //         type: "GET",
     //         url: "api/report/demo-report",
