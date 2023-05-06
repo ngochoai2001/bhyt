@@ -21,6 +21,12 @@ import java.net.http.HttpResponse;
 public class HomeController {
     @Autowired
     private UserRepository userRepository;
+    @GetMapping("")
+    public String index(Model model){
+        UserAccount u = new UserAccount();
+        model.addAttribute("user", u);
+        return "login";
+    }
     @GetMapping("/login")
     public String login(Model model){
         UserAccount u = new UserAccount();
