@@ -54,7 +54,7 @@ public class HealthInsuranceImpl implements HealthInsuranceCardService {
         System.out.println(request.getDistrict());
         System.out.println(request.getDateStart());
         System.out.println(request.getDateEnd());
-            return healthInsuranceCardRepository.getAll(request.getProvince(), request.getProvince(),request.getDateStart(), request.getDateEnd());
+            return healthInsuranceCardRepository.getAll(request.getProvince(), request.getDistrict(),request.getDateStart(), request.getDateEnd());
       
     }
 }

@@ -1,6 +1,6 @@
 createYear();
-createMonth();
-deleteData()
+// createMonth();
+// deleteData()
 
 function validate() {
     let a = [
@@ -174,7 +174,6 @@ function createCity() {
         let firstName = document.querySelector('#inputCity');
         const selectElement = document.getElementById('city');
         document.querySelector('#inputDistrict').value="";
-        document.querySelector('#inputWard').value="";
         if (selectElement.options[selectElement.selectedIndex].textContent !== "Chọn tỉnh thành") {
             firstName.value = selectElement.options[selectElement.selectedIndex].textContent;
 
@@ -187,19 +186,7 @@ function createDistrict() {
     selectElement.addEventListener('change', function(event) {
         let firstName = document.querySelector('#inputDistrict');
         const selectElement = document.getElementById('district');
-        document.querySelector('#inputWard').value="";
         if (selectElement.options[selectElement.selectedIndex].textContent !== "Chọn quận huyện") {
-            firstName.value = selectElement.options[selectElement.selectedIndex].textContent;
-        }
-    });
-}
-
-function createWard() {
-    const selectElement = document.getElementById('ward');
-    selectElement.addEventListener('change', function(event) {
-        let firstName = document.querySelector('#inputWard');
-        const selectElement = document.getElementById('ward');
-        if (selectElement.options[selectElement.selectedIndex].textContent !== "Chọn xã phường") {
             firstName.value = selectElement.options[selectElement.selectedIndex].textContent;
         }
     });
@@ -226,7 +213,6 @@ function createDateEnd() {
 
 function deleteData() {
     document.querySelector('#inputDistrict').value="";
-    document.querySelector('#inputWard').value="";
     document.querySelector('#inputCity').value="";
     document.querySelector('#inputStart').value="1900-1-1";
     let currentDate = new Date();

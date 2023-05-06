@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html   lang="vi">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -38,7 +38,7 @@
 
         </ul>
         <form class="form-inline my-2 my-lg-0" action="/logout">
-            <span th:text="#{user.name}"></span>
+<!--            <span th:text="#{user.name}"></span>-->
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Đăng xuất</button>
         </form>
     </div>
@@ -70,28 +70,28 @@
 
     </div>
     <form th:action="@{/hicard/home/viewlist}" th:object="${request}" method="POST" class="">
-        <div class="form-group hide">
+        <div class="form-group">
             <label> Student First Name </label>
             <span  style="color: red;font-size: 30px">*</span>
             <input type="text" name="province" id="inputCity" th:field="*{province}" class="form-control" placeholder="Enter Student First Name" />
         </div>
-        <div class="form-group hide">
+        <div class="form-group">
             <label> Student Last Name </label>
             <input type="text" name="district" id="inputDistrict" th:field="*{district}" class="form-control" placeholder="Enter Student Last Name" />
         </div>
 
-        <div class="form-group ">
+        <div class="form-group">
             <label> Ngày bắt đầu </label>
             <span class="report_info_title" style="color: red;font-size: 30px">*</span>
             <input type="date" name="dateStart"  th:field="*{dateStart}" class="form-control" placeholder="Enter Student Last Name" />
         </div>
-        <div class="form-group  ">
+        <div class="form-group">
             <label> Ngày kết thúc</label>
             <span class="report_info_title" style="color: red;font-size: 30px">*</span>
             <input type="date" name="dateEnd"  th:field="*{dateEnd}" class="form-control" placeholder="Enter Student Last Name" />
         </div>
-        <div >
-            <button id = "xemds" type="submit" class="button login__submit">
+        <div class="box-footer">
+            <button type="submit" class="button login__submit">
                 Xem danh sách
             </button>
         </div>
@@ -109,7 +109,6 @@
         <th> Số điện thoại </th>
         <th> Ngày tham gia </th>
         <th> Ngày kết thúc </th>
-
     </tr>
     </thead>
 
@@ -124,7 +123,6 @@
         <td th:text = "${cus.phone}"></td>
         <td th:text = "${cus.dateStart}"></td>
         <td th:text = "${cus.dateEnd}"></td>
-
     </tr>
     </tbody>
 </table>
@@ -146,16 +144,16 @@
     promise.then(function(result) {
         renderCity(result.data);
     });
-    var xemds = document.getElementById("district");
-    xemds.onclick = function (){
-        var inputCity = document.getElementById("inputCity");
-        var inputDistrict = document.getElementById("inputDistrict");
-        var dateStart = document.getElementsByName("dateStart");
-        var dateEnd = document.getElementById("dateEnd");
-        if(inputCity == undefined){
-
-        }
-    };
+    // var xemds = document.getElementById("district");
+    // xemds.onclick = function (){
+    //     var inputCity = document.getElementById("inputCity");
+    //     var inputDistrict = document.getElementById("inputDistrict");
+    //     var dateStart = document.getElementsByName("dateStart");
+    //     var dateEnd = document.getElementById("dateEnd");
+    //     if(inputCity == undefined){
+    //
+    //     }
+    // };
 
     function renderCity(data) {
         for (const x of data) {

@@ -17,7 +17,6 @@ public class HealthInsuranceBill {
     private int id;
     private Date fromDate;
     private Date toDate;
-    private String company;
     private double baseSalary;
     private double pensionSalary;
     @Enumerated(EnumType.STRING)
@@ -31,4 +30,10 @@ public class HealthInsuranceBill {
     @JoinColumn(name = "insurance_card_id", referencedColumnName = "id")
     private HealthInsuranceCard healthInsuranceCard;
 
+    public String getPaymentStatus() {
+        return paymentStatus.getPaymentStatus();
+    }
+    public String getPaymentMethod() {
+        return paymentMethod.getPaymentMethod();
+    }
 }
