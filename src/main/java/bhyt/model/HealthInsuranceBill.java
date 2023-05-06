@@ -31,4 +31,10 @@ public class HealthInsuranceBill {
     @JoinColumn(name = "insurance_card_id", referencedColumnName = "id")
     private HealthInsuranceCard healthInsuranceCard;
 
+    public String getPaymentStatus() {
+        return paymentStatus.getPaymentStatus();
+    }
+    public String getPaymentMethod() {
+        return paymentMethod.getPaymentMethod();
+    }
 }
