@@ -199,8 +199,11 @@ body {
 }
 
 .nav-brand:hover {
-    background-color: white;
     color: black;
+    background-color: white;
+    margin: 3px 10px;
+    height: 103%;
+    font-style: oblique;
 }
 
 /*--------------------------*/

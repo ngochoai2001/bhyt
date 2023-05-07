@@ -72,7 +72,7 @@
           <form th:action="@{/hicard/home/config}" th:object="${config}" method="POST" style="display: flex;flex-wrap: wrap">
             <div class="form-group col-md-6">
               <label class="control-label"> Lương cơ sở (VND)</label>
-              <input type="number" name="salary" th:field="*{salary}" class="form-control" step="1" placeholder="Lương cơ sở" th:value="*{salary}"/>
+              <input type="number" name="salary" th:field="*{salary}" class="form-control" step="1" placeholder="Lương cơ sở" th:value="*{salary}" autofocus/>
             </div>
             <div class="form-group col-md-6">
               <label class="control-label"> Tỉ lệ phần trăm mức đóng của người lao động theo mức lương được hưởng (%)</label>
