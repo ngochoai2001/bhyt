@@ -102,20 +102,25 @@
                 <div class="form-group" style="padding-right: 80px;">
                     <label> Ngày bắt đầu </label>
                     <span class="report_info_title" style="color: red;font-size: 30px">*</span>
-                    <input type="date" name="dateStart" th:field="*{dateStart}" class="form-control" placeholder="Enter Student Last Name" />
+                    <input type="date" name="dateStart" th:field="*{dateStart}" class="form-control"/>
                 </div>
                 <div class="form-group"  style="padding-right: 80px;">
                     <label> Ngày kết thúc</label>
                     <span class="report_info_title" style="color: red;font-size: 30px">*</span>
-                    <input type="date" name="dateEnd" th:field="*{dateEnd}" class="form-control" placeholder="Enter Student Last Name" />
+                    <input type="date" name="dateEnd" th:field="*{dateEnd}" class="form-control"/>
                 </div>
                 <span>&nbsp;</span>
-                <div class="box-footer">
-                    <button type="submit" class="button login__submit"  style="padding-right: 80px;">
+                <div class="box-footer hide">
+                    <button type="submit" class="button login__submit"  style="padding-right: 80px;" id="btnSubmit">
                         Xem danh sách
                     </button>
                 </div>
             </form>
+            <div class="box-footer">
+                <button type="" class="button login__submit"  style="padding-right: 80px;" onclick="checkFailViewList()">
+                    Xem danh sách
+                </button>
+            </div>
         </div>
     </div>
 

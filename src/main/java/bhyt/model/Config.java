@@ -15,7 +15,7 @@ public class Config {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private double salary;
+    private Integer salary;
     @Column
     private double worker;
     @Column

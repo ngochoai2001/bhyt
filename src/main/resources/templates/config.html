@@ -11,7 +11,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Main CSS-->
-  <link rel="stylesheet" type="text/css" href="app.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
   <!-- or -->
   <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -32,7 +31,8 @@
 
 
     <!-- User Menu-->
-    <li><a class="app-nav__item" href="#"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+    <li><a class="app-nav__item" href="/"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+
 
     </li>
   </ul>
@@ -51,9 +51,9 @@
     <li><a class="app-menu__item" th:href="@{/hicard/home/viewlist}"><i class='app-menu__icon bx bx-tachometer'></i><span
             class="app-menu__label"> Xem danh sách </span></a></li>
     <li><a class="app-menu__item" th:href="@{/hicard/home/report/reportbyyear}"><i class='app-menu__icon bx bx-id-card'></i> <span
-            class="app-menu__label">Quản lý danh mục</span></a></li>
+            class="app-menu__label"> Báo cáo </span></a></li>
     <li><a class="app-menu__item active" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
-            class="app-menu__label">Quản lý khách hàng</span></a></li>
+            class="app-menu__label"> Cấu hình </span></a></li>
   </ul>
 </aside>
 <main class="app-content">
@@ -71,64 +71,64 @@
         <div class="">
           <form th:action="@{/hicard/home/config}" th:object="${config}" method="POST" style="display: flex;flex-wrap: wrap">
             <div class="form-group col-md-6">
-              <label class="control-label"> Lương cơ sở </label>
-              <input type="text" name="salary" th:field="*{salary}" class="form-control" placeholder="Lương cơ sở" />
+              <label class="control-label"> Lương cơ sở (VND)</label>
+              <input type="number" name="salary" th:field="*{salary}" class="form-control" step="1" placeholder="Lương cơ sở" th:value="*{salary}"/>
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người lao động theo mức lương được hưởng </label>
-              <input type="text" name="worker" th:field="*{worker}" class="form-control" placeholder="Người lao động" />
+              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người lao động theo mức lương được hưởng (%)</label>
+              <input type="number" name="worker" th:field="*{worker}" class="form-control" placeholder="Người lao động" step="any" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người hưởng lương hưu, trợ cấp mất sức lao động </label>
-              <input type="text" name="retirement" th:field="*{retirement}" class="form-control" placeholder="Lương hưu, mất sức lao động" />
+              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người hưởng lương hưu, trợ cấp mất sức lao động (%)</label>
+              <input type="number" name="retirement" th:field="*{retirement}" class="form-control" step="any" placeholder="Lương hưu, mất sức lao động" th:value="*{retirement}" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người trong chế độ nghỉ thai sản trước khi nghỉ </label>
-              <input type="text" name="maternity" th:field="*{maternity}" class="form-control" placeholder="Nghỉ thai sản" />
+              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người trong chế độ nghỉ thai sản trước khi nghỉ (%)</label>
+              <input type="number" name="maternity" th:field="*{maternity}" class="form-control" step="any" placeholder="Nghỉ thai sản" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người hưởng trợ cấp thất nghiệp </label>
-              <input type="text" name="unemployment" th:field="*{unemployment}" class="form-control" placeholder="Trợ cấp thất nghiệp" />
+              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người hưởng trợ cấp thất nghiệp (%)</label>
+              <input type="number" name="unemployment" th:field="*{unemployment}" class="form-control" step="any" placeholder="Trợ cấp thất nghiệp" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức đóng của các đối tượng khác </label>
-              <input type="text" name="other" th:field="*{other}" class="form-control" placeholder="Đối tượng khác" />
+              <label class="control-label"> Tỉ lệ phần trăm mức đóng của các đối tượng khác (%)</label>
+              <input type="number" name="other" th:field="*{other}" class="form-control" step="any" placeholder="Đối tượng khác" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người thứ 1 trong hộ gia đình so với mức lương cơ sở </label>
-              <input type="text" name="familyOne" th:field="*{familyOne}" class="form-control" placeholder="Người đóng thứ nhất" />
+              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người thứ 1 trong hộ gia đình so với mức lương cơ sở (%)</label>
+              <input type="number" name="familyOne" th:field="*{familyOne}" class="form-control" step="any" placeholder="Người đóng thứ nhất" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người thứ 2 trong hộ gia đình so với người thứ 1 </label>
-              <input type="text" name="familyTwo" th:field="*{familyTwo}" class="form-control" placeholder="Người đóng thứ 2" />
+              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người thứ 2 trong hộ gia đình so với người thứ 1 (%)</label>
+              <input type="number" name="familyTwo" th:field="*{familyTwo}" class="form-control" step="any" placeholder="Người đóng thứ 2" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người thứ 3 trong hộ gia đình so với người thứ 1 </label>
-              <input type="text" name="familyThree" th:field="*{familyThree}" class="form-control" placeholder="Người đóng thứ 3" />
+              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người thứ 3 trong hộ gia đình so với người thứ 1 (%)</label>
+              <input type="number" name="familyThree" th:field="*{familyThree}" class="form-control" step="any" placeholder="Người đóng thứ 3" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người thứ 4 trong hộ gia đình so với người thứ 1 </label>
-              <input type="text" name="familyFour" th:field="*{familyFour}" class="form-control" placeholder="Người đóng thứ 4" />
+              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người thứ 4 trong hộ gia đình so với người thứ 1 (%)</label>
+              <input type="number" name="familyFour" th:field="*{familyFour}" class="form-control" step="any" placeholder="Người đóng thứ 4" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người thứ 5 trở đi trong hộ gia đình so với người thứ 1 </label>
-              <input type="text" name="familyFive" th:field="*{familyFive}" class="form-control" placeholder="Người đóng thứ 5" />
+              <label class="control-label"> Tỉ lệ phần trăm mức đóng của người thứ 5 trở đi trong hộ gia đình so với người thứ 1 (%)</label>
+              <input type="number" name="familyFive" th:field="*{familyFive}" class="form-control" step="any" placeholder="Người đóng thứ 5" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức hỗ trợ đối với hộ nghèo ở huyện nghèo </label>
-              <input type="text" name="familyThree" th:field="*{poor}" class="form-control" placeholder="Huyện nghèo" />
+              <label class="control-label"> Tỉ lệ phần trăm mức hỗ trợ đối với hộ nghèo ở huyện nghèo (%)</label>
+              <input type="number" name="familyThree" th:field="*{poor}" class="form-control" step="any" placeholder="Huyện nghèo" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức hỗ trợ đối với hộ cận nghèo </label>
-              <input type="text" name="familyFour" th:field="*{nearPoor}" class="form-control" placeholder="Hộ cận nghèo" />
+              <label class="control-label"> Tỉ lệ phần trăm mức hỗ trợ đối với hộ cận nghèo (%)</label>
+              <input type="number" name="familyFour" th:field="*{nearPoor}" class="form-control" step="any" placeholder="Hộ cận nghèo" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức hỗ trợ đối với học sinh, sinh viên </label>
-              <input type="text" name="familyFive" th:field="*{student}" class="form-control" placeholder="Học sinh sinh viên" />
+              <label class="control-label"> Tỉ lệ phần trăm mức hỗ trợ đối với học sinh, sinh viên (%)</label>
+              <input type="number" name="familyFive" th:field="*{student}" class="form-control" step="any" placeholder="Học sinh sinh viên" />
             </div>
             <div class="form-group col-md-6">
-              <label class="control-label"> Tỉ lệ phần trăm mức hỗ trợ đối với người thuộc hộ gia đình nông-lâm-ngư-diêm nghiêp</label>
-              <input type="text" name="farmer" th:field="*{farmer}" class="form-control" placeholder="Nông lâm ngư nghiệp" />
+              <label class="control-label"> Tỉ lệ phần trăm mức hỗ trợ đối với người thuộc hộ gia đình nông-lâm-ngư-diêm nghiêp(%)</label>
+              <input type="number" name="farmer" th:field="*{farmer}" class="form-control" step="any" placeholder="Nông lâm ngư nghiệp" />
             </div>
             <div class="box-footer" style="width: 100%;display: flex;">
               <button type="submit" class="btn btn-primary" style="margin: auto">
@@ -136,69 +136,39 @@
               </button>
             </div>
           </form>
-
         </div>
       </div>
     </div>
   </div>
+  <script>
+    let listInput = document.querySelectorAll('input');
+    const listArr = Array.from(listInput);
+    const firstInput = listArr.shift();
+    firstInput.addEventListener('blur', function() {
+      if (parseInt(firstInput.value) < 1 || isNaN(parseInt(firstInput.value))) {
+        alert("Vui lòng nhập giá trị lương cơ sở hợp lệ lớn hơn 0");
+      } else if (parseFloat(firstInput.value) % 1 != 0) {
+        alert("Vui lòng nhập giá trị lương cơ sở là một số nguyên");
+      }
+    });
+    console.log(listArr)
+    listArr.forEach(input => {
+      input.addEventListener('blur', function() {
+        if (parseFloat(input.value) < 0 || parseFloat(input.value) >100 || isNaN(parseInt(input.value))) {
+          alert("Vui lòng nhập giá trị phần trăm hợp lệ là số dương không vượt quá 100");
+        }
+      });
+    });
+  </script>
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-  <script>
-    var citis = document.getElementById("city");
-    var districts = document.getElementById("district");
-    var Parameter = {
-      url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-      method: "GET",
-      responseType: "application/json",
-    };
-    var promise = axios(Parameter);
-    promise.then(function(result) {
-      renderCity(result.data);
-    });
-    // var xemds = document.getElementById("district");
-    // xemds.onclick = function (){
-    //     var inputCity = document.getElementById("inputCity");
-    //     var inputDistrict = document.getElementById("inputDistrict");
-    //     var dateStart = document.getElementsByName("dateStart");
-    //     var dateEnd = document.getElementById("dateEnd");
-    //     if(inputCity == undefined){
-    //
-    //     }
-    // };
 
-    function renderCity(data) {
-      for (const x of data) {
-        citis.options[citis.options.length] = new Option(x.Name, x.Id);
-      }
-      citis.onchange = function() {
-        district.length = 1;
-        if (this.value != "") {
-          const result = data.filter(n => n.Id === this.value);
-
-          for (const k of result[0].Districts) {
-            district.options[district.options.length] = new Option(k.Name, k.Id);
-          }
-        }
-      };
-
-    }
-  </script>
   <script th:src="@{/js/app.js}"></script>
 </main>
 
-<script src="js/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/popper.min.js"></script>
 <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
 <!--===============================================================================================-->
-<script src="js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-<script src="js/main.js"></script>
-<!--===============================================================================================-->
-<script src="js/plugins/pace.min.js"></script>
-<!--===============================================================================================-->
-<script type="text/javascript" src="js/plugins/chart.js"></script>
 <!--===============================================================================================-->
 <script type="text/javascript">
   //Thời Gian
