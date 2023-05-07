@@ -241,7 +241,7 @@ function checkFailViewList() {
         console.log(arr1)
         console.log(arr2)
         if (arr1>arr2){
-            alert("Vui lòng chọn ngày bắt đầu nhỏ hơn ngày kết thúc")
+            alert("Vui lòng chọn ngày bắt đầu không lớn hơn ngày kết thúc")
         }else {
             document.getElementById("btnSubmit").click();
         }
@@ -261,7 +261,7 @@ function checkFailReportYear() {
         if (yearStart <= 1991 || yearEnd <= 1991 || isNaN(yearStart) || isNaN(yearEnd)) {
             alert("Vui lòng nhập giá trị năm bắt đầu và kết thúc hợp lệ lớn hơn hoặc bằng 1992");
         } else if (yearStart > yearEnd) {
-            alert("Vui lòng nhập giá trị năm bắt đầu nhỏ hơn năm kết thúc");
+            alert("Vui lòng nhập giá trị năm bắt đầu không lớn hơn năm kết thúc");
         } else {
             document.getElementById("btnSubmit").click();
         }
