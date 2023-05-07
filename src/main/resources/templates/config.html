@@ -130,12 +130,17 @@
               <label class="control-label"> Tỉ lệ phần trăm mức hỗ trợ đối với người thuộc hộ gia đình nông-lâm-ngư-diêm nghiêp(%)</label>
               <input type="number" name="farmer" th:field="*{farmer}" class="form-control" step="any" placeholder="Nông lâm ngư nghiệp" />
             </div>
-            <div class="box-footer" style="width: 100%;display: flex;">
-              <button type="submit" class="btn btn-primary" style="margin: auto">
+            <div class="box-footer hide" style="width: 100%">
+              <button type="submit" class="btn btn-primary" style="margin: auto" id="btnSubmit">
                 Submit
               </button>
             </div>
           </form>
+          <div class="box-footer" style="width: 100%;display: flex;">
+            <button type="submit" class="btn btn-primary" style="margin: auto" onclick="checkConfig()">
+              Submit
+            </button>
+          </div>
         </div>
       </div>
     </div>
