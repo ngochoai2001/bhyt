@@ -60,7 +60,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="app-title" style="justify-content: space-between">
-                <a class="nav-brand" th:href="@{/hicard/home/report/reportcomplete}"style="width: 6%;font-size: 16px;text-align: center"> BACK </a>
+<!--                <a class="nav-brand" th:href="@{/hicard/home/report/reportcomplete}"style="width: 6%;font-size: 16px;text-align: center"> BACK </a>-->
                 <div id="clock"></div>
             </div>
         </div>
@@ -69,7 +69,7 @@
     <nav class="nav_dark">
         <div style="height: 100%;color: white;width: 80%;display: flex; font-size: 23px">
             <a class="btn nav-brand" th:href="@{/hicard/home/report/reportbyyear}">BÁO CÁO TỔNG TIỀN BẢO HIỂM THEO NĂM</a>
-            <a class="btn nav-master" th:href="@{/hicard/home/report/reportcomplete}">DANH SÁCH CÁ NHÂN CHƯA HOÀN THIỆN PHÍ THEO THÁNG</a>
+            <a class="btn nav-master" th:href="@{/hicard/home/report/reportcomplete}">DANH SÁCH CÁ NHÂN ĐÃ HOÀN THIỆN PHÍ THEO THÁNG</a>
             <a class="btn nav-brand" th:href="@{/hicard/home/report/reportnotcomplete}">DANH SÁCH CÁ NHÂN CHƯA HOÀN THIỆN PHÍ THEO THÁNG</a>
         </div>
     </nav>
@@ -118,13 +118,14 @@
             <td th:text="${cus.healthInsuranceCard.name}"></td>
             <td th:text="${cus.healthInsuranceCard.code}"></td>
             <td th:text="${cus.baseSalary}"></td>
-            <td th:text="${cus.baseSalary}"></td>
+            <td th:text="${cus.company}"></td>
             <td th:text="${cus.pensionSalary}"></td>
             <td th:text="${cus.fromDate}"></td>
             <td th:text="${cus.toDate}"></td>
             <td th:text="${cus.fee }"></td>
-            <td th:text="${cus.paymentStatus}"></td>
             <td th:text="${cus.paymentMethod}"></td>
+            <td th:text="${cus.paymentStatus}"></td>
+
 
 
         </tr>

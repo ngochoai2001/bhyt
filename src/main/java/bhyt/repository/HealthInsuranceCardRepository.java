@@ -16,7 +16,7 @@ public interface HealthInsuranceCardRepository extends JpaRepository<HealthInsur
             " WHERE (''=:city OR card.province = :city) AND (''=:district OR card.district = :district) " +
             " and e.paymentStatus = 'DONE' and YEAR(e.toDate) >= :startYear and YEAR(e.toDate) <= :endYear " +
             " GROUP BY YEAR(e.toDate) ")
-    List<Object[]> reportByYear(String city, String district, int startYear, int endYear);
+    List<Object[]> reportByYear(String city, String district, Integer startYear, Integer endYear);
 
 //
     @Query("SELECT e FROM HealthInsuranceBill e join " +
@@ -24,7 +24,7 @@ public interface HealthInsuranceCardRepository extends JpaRepository<HealthInsur
             " WHERE (''=:province OR card.province = :province) AND (''=:district OR card.district = :district) " +
             " and e.paymentStatus = 'DONE' and MONTH(e.toDate) = :month and YEAR(e.toDate) = :year " +
             "")
-    List<HealthInsuranceBill> reportCompleteByMonth(String province, String district, int month, int year);
+    List<HealthInsuranceBill> reportCompleteByMonth(String province, String district, Integer month, Integer year);
 
 //
 @Query("SELECT e FROM HealthInsuranceBill e join " +
@@ -32,7 +32,7 @@ public interface HealthInsuranceCardRepository extends JpaRepository<HealthInsur
         " WHERE (''=:province OR card.province = :province) AND (''=:district OR card.district = :district) " +
         " and e.paymentStatus <> 'DONE' and MONTH(e.toDate) = :month and YEAR(e.toDate) = :year " +
         " ")
-List<HealthInsuranceBill > reportNotCompleteByMonth(String province, String district, int month, int year);
+List<HealthInsuranceBill > reportNotCompleteByMonth(String province, String district, Integer month, Integer year);
 
 
     @Query(" SELECT e FROM HealthInsuranceCard e WHERE  (e.province = :province AND e.district = :district AND e.dateStart >= :dateStart AND e.dateEnd <= :dateEnd) ")

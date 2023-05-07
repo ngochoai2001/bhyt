@@ -17,6 +17,22 @@ public class ConfigImpl implements ConfigService {
 
     @Override
     public Config updateConfig(Config config) {
+        Config old = this.findConfig(1L);
+        old.setSalary(config.getSalary());
+        old.setWorker(config.getWorker());
+        old.setRetirement(config.getRetirement());
+        old.setMaternity(config.getMaternity());
+        old.setUnemployment(config.getUnemployment());
+        old.setOther(config.getOther());
+        old.setFamilyOne(config.getFamilyOne());
+        old.setFamilyTwo(config.getFamilyTwo());
+        old.setFamilyThree(config.getFamilyThree());
+        old.setFamilyFour(config.getFamilyFour());
+        old.setFamilyFive(config.getFamilyFive());
+        old.setPoor(config.getPoor());
+        old.setNearPoor(config.getNearPoor());
+        old.setStudent(config.getStudent());
+        old.setFarmer(config.getFarmer());
         return configRepository.save(config);
     }
 

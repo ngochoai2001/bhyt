@@ -47,9 +47,7 @@ class ConfigServiceTest {
         config.setSalary(-1);
         testUnsuccessfullUpdateConfig_ConfigMustUnchange(config);
     }
-    public void testInvalidateSalary(Config config){
 
-    }
     @Test
     @DisplayName("Test config salary, must not be zero, config value must be remain after update function ")
     @Rollback

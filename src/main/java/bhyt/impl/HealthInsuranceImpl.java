@@ -34,7 +34,7 @@ public class HealthInsuranceImpl implements HealthInsuranceCardService {
     public List<HealthInsuranceBill> getReportCompleteFee(HiReportBillRequest request) {
         System.out.println(request.getProvince());
         System.out.println(request.getDistrict());
-        if (request.getMonth() != 0 && request.getYear() > 0) {
+        if (request.getMonth() > 0 && request.getMonth() < 12 && request.getYear() >= 1992) {
             return healthInsuranceCardRepository.reportCompleteByMonth(request.getProvince(), request.getDistrict(), request.getMonth(), request.getYear());
         }
         return new ArrayList<>();
@@ -43,7 +43,7 @@ public class HealthInsuranceImpl implements HealthInsuranceCardService {
     public List<HealthInsuranceBill> getReportNotCompleteFee(HiReportBillRequest request) {
         System.out.println(request.getProvince());
         System.out.println(request.getDistrict());
-        if (request.getMonth() != 0 && request.getYear() > 0) {
+        if (request.getMonth() > 0 && request.getMonth() < 12 && request.getYear() >= 1992) {
             return healthInsuranceCardRepository.reportNotCompleteByMonth(request.getProvince(), request.getDistrict(), request.getMonth(), request.getYear());
         }
         return new ArrayList<>();

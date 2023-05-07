@@ -1,7 +1,9 @@
 package bhyt.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -11,6 +13,8 @@ import java.util.Date;
         @Index(name = "idx_bill", columnList = "id"),
 
 })
+@NoArgsConstructor
+@AllArgsConstructor
 public class HealthInsuranceBill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +23,7 @@ public class HealthInsuranceBill {
     private Date toDate;
     private double baseSalary;
     private double pensionSalary;
+    private String company;
     @Enumerated(EnumType.STRING)
     private InsuranceType insuranceType;
     private double fee;

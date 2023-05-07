@@ -19,37 +19,9 @@ class HealthInsuranceCardRepositoryTest {
     @Autowired
     HealthInsuranceCardRepository healthInsuranceCardRepository;
     /*
-    @Test
-    @DisplayName("Test report by year when all fields are empty")
-    void reportByYear() {
-//        List<Object[]> result = healthInsuranceCardRepository.reportByYear("","","");
-//        List<Object[]> expected1 = expected1();
-//
-//        assertNotNull(result);
-//        assertEquals(result.size(),3);
-//
-//        for(int i = 0;i<result.size();i++){
-//            assertNotNull(expected1.get(i));
-//            assertEquals((Integer) result.get(i)[0], expected1.get(i)[0]);
-//            assertEquals((Double) result.get(i)[1], expected1.get(i)[1]);
-//        }
-    }
 
-    @Test
-    @DisplayName("Test report by year when district and ward fields are empty")
-    void reportByYear1() {
-//        List<Object[]> result = healthInsuranceCardRepository.reportByYear("Thành phố Hà Nội","","");
-//        List<Object[]> expected1 = expected2();
-//
-//        assertNotNull(result);
-//        assertEquals(result.size(),3);
-//
-//        for(int i = 0;i<result.size();i++){
-//            assertNotNull(expected1.get(i));
-//            assertEquals((Integer) result.get(i)[0], expected1.get(i)[0]);
-//            assertEquals((Double) result.get(i)[1], expected1.get(i)[1]);
-//        }
-    }
+
+
     @Test
     @DisplayName("Test report by year when ward fields are empty")
     void reportByYear2() {
@@ -66,53 +38,24 @@ class HealthInsuranceCardRepositoryTest {
         }
     }
     */
-    @Test
-    @DisplayName("Test report by year when no fields are empty")
-    void reportByYear() {
-        List<Object[]> result = healthInsuranceCardRepository.reportByYear("Thành phố Hà Nội","Quận Thanh Xuân",2020, 2023);
-        List<Object[]> expected1 = expected1();
 
-        assertNotNull(result);
-        assertEquals(result.size(),1);
+//    public List<Object[]> expected1(){
+//        List<Object[]> result = new ArrayList<>();
+//        Object[] o1 = new Object[2];
+//        o1[0] = 2023;
+//        o1[1] = 540000.0d;
+//        result.add(o1);
+////        Object[] o2 = new Object[2];
+////        o2[0] = 2021;
+////        o2[1] = 450000.0d;
+////        result.add(o2);
+////        Object[] o3 = new Object[2];
+////        o3[0] = 2022;
+////        o3[1] = 450000.0d;
+////        result.add(o3);
+//        return result;
+//    }
 
-        for(int i = 0;i<result.size();i++){
-            assertNotNull(expected1.get(i));
-            assertEquals((Integer) result.get(i)[0], expected1.get(i)[0]);
-            assertEquals((Double) result.get(i)[1], expected1.get(i)[1]);
-        }
-    }
-    public List<Object[]> expected1(){
-        List<Object[]> result = new ArrayList<>();
-        Object[] o1 = new Object[2];
-        o1[0] = 2023;
-        o1[1] = 540000.0d;
-        result.add(o1);
-//        Object[] o2 = new Object[2];
-//        o2[0] = 2021;
-//        o2[1] = 450000.0d;
-//        result.add(o2);
-//        Object[] o3 = new Object[2];
-//        o3[0] = 2022;
-//        o3[1] = 450000.0d;
-//        result.add(o3);
-        return result;
-    }
-    public List<Object[]> expected2(){
-        List<Object[]> result = new ArrayList<>();
-        Object[] o1 = new Object[2];
-        o1[0] = 2023;
-        o1[1] = 700000.0d;
-        result.add(o1);
-        Object[] o2 = new Object[2];
-        o2[0] = 2021;
-        o2[1] = 450000.0d;
-        result.add(o2);
-        Object[] o3 = new Object[2];
-        o3[0] = 2022;
-        o3[1] = 450000.0d;
-        result.add(o3);
-        return result;
-    }
     public List<Object[]> expected3(){
         List<Object[]> result = new ArrayList<>();
         Object[] o1 = new Object[2];

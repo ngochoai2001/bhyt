@@ -28,23 +28,7 @@ public class ConfigController {
     @PostMapping("/hicard/home/config")
     public String updateStudent(@ModelAttribute("config") Config config,
                                 Model model) {
-        Config old = configService.findConfig(1L);
-        old.setSalary(config.getSalary());
-        old.setWorker(config.getWorker());
-        old.setRetirement(config.getRetirement());
-        old.setMaternity(config.getMaternity());
-        old.setUnemployment(config.getUnemployment());
-        old.setOther(config.getOther());
-        old.setFamilyOne(config.getFamilyOne());
-        old.setFamilyTwo(config.getFamilyTwo());
-        old.setFamilyThree(config.getFamilyThree());
-        old.setFamilyFour(config.getFamilyFour());
-        old.setFamilyFive(config.getFamilyFive());
-        old.setPoor(config.getPoor());
-        old.setNearPoor(config.getNearPoor());
-        old.setStudent(config.getStudent());
-        old.setFarmer(config.getFarmer());
-        configService.updateConfig(old);
+        configService.updateConfig(config);
         return "config";
     }
     @GetMapping("/test")
