@@ -311,6 +311,24 @@ function checkFailReportOther() {
 //     });
 // }
 
+function checkConfig() {
+    let listInput = document.querySelectorAll('input');
+    const listArr = Array.from(listInput);
+    const firstInput = listArr.shift();
+    if (parseInt(firstInput.value) < 1 || isNaN(parseInt(firstInput.value))) {
+        alert("Vui lòng nhập giá trị lương cơ sở hợp lệ lớn hơn 0");
+    } else if (parseFloat(firstInput.value) % 1 != 0) {
+        alert("Vui lòng nhập giá trị lương cơ sở là một số nguyên");
+    } else {
+        listArr.forEach(input => {
+            if (parseFloat(input.value) < 0 || parseFloat(input.value) > 100 || isNaN(parseInt(input.value))) {
+                alert("Vui lòng nhập giá trị phần trăm hợp lệ là số dương không vượt quá 100");
+                return null;
+            }
+        });
+        document.getElementById("btnSubmit").click();
+    }
+}
 
 
 
