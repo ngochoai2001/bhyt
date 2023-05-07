@@ -236,18 +236,12 @@ function checkFailViewList() {
     } else if(dateStart.value == "" || dateEnd.value == ""){
         alert("Vui lòng chọn ngày bắt đầu và kết thúc một giá trị hợp lệ");
     } else {
-        const arr1 = dateStart.value.split("-");
-        const arr2 = dateEnd.value.split("-");
+        const arr1 = new Date(dateStart.value);
+        const arr2 = new Date(dateEnd.value);
         console.log(arr1)
         console.log(arr2)
-        if (arr1[0] < arr2[0] || (arr1[0] == arr2[0] && arr1[1] < arr2[1]) || (arr1[0] == arr2[0] && arr1[1] == arr2[1] && arr1[2] < arr2[2])) {
-            document.getElementById("btnSubmit").click();
-        }else if(arr1[0] > arr2[0]) {
-            alert("Vui lòng chọn năm bắt đầu nhỏ hơn ngày kết thúc");
-        }else if(arr1[1] > arr2[1]) {
-            alert("Vui lòng chọn tháng bắt đầu nhỏ hơn ngày kết thúc");
-        }else if(arr1[2] > arr2[2]) {
-            alert("Vui lòng chọn ngày bắt đầu nhỏ hơn ngày kết thúc");
+        if (arr1>arr2){
+            alert("Vui lòng chọn ngày bắt đầu nhỏ hơn ngày kết thúc")
         }else {
             document.getElementById("btnSubmit").click();
         }
@@ -264,8 +258,8 @@ function checkFailReportYear() {
     } else if (district.options[district.selectedIndex].textContent == "Chọn quận huyện") {
         alert("Quận huyện bắt buộc phải chọn");
     } else {
-        if (yearStart <= 0 || yearEnd <= 0 || isNaN(yearStart) || isNaN(yearEnd)) {
-            alert("Vui lòng nhập giá trị năm bắt đầu và kết thúc hợp lệ lớn hơn 0");
+        if (yearStart <= 1991 || yearEnd <= 1991 || isNaN(yearStart) || isNaN(yearEnd)) {
+            alert("Vui lòng nhập giá trị năm bắt đầu và kết thúc hợp lệ lớn hơn hoặc bằng 1992");
         } else if (yearStart > yearEnd) {
             alert("Vui lòng nhập giá trị năm bắt đầu nhỏ hơn năm kết thúc");
         } else {
