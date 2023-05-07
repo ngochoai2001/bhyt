@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class HiReportBillRequest {
     private String province;
     private String district;
-    private int year;
-    private int month;
+    private int year=2023;
+    private int month=1;
 }
