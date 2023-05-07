@@ -277,9 +277,13 @@ function checkFailReportOther() {
         alert("Quận huyện bắt buộc phải chọn");
     } else {
         const month = document.getElementById("inputStart");
-        if (isNaN(parseInt(month.value)) || parseInt(month.value) == 0) {
+        const year = document.getElementById("inputEnd");
+        if (month.value ==="" || parseInt(month.value) === 0) {
             alert("Vui lòng nhập giá trị tháng hợp lệ lớn hơn 0 và nhỏ hơn 13");
-            return;
+            return null;
+        } else if(year.value ==="" || parseInt(year.value) < 1992) {
+            alert("Vui lòng nhập giá trị năm hợp lệ lớn hơn 1991");
+            return null;
         }
         document.getElementById("btnSubmit").click();
     }
@@ -309,17 +313,22 @@ function checkConfig() {
     let listInput = document.querySelectorAll('input');
     const listArr = Array.from(listInput);
     const firstInput = listArr.shift();
+    let check = 0;
     if (parseInt(firstInput.value) < 1 || isNaN(parseInt(firstInput.value))) {
         alert("Vui lòng nhập giá trị lương cơ sở hợp lệ lớn hơn 0");
+        check++;
     } else if (parseFloat(firstInput.value) % 1 != 0) {
         alert("Vui lòng nhập giá trị lương cơ sở là một số nguyên");
+        check++;
     } else {
         listArr.forEach(input => {
             if (parseFloat(input.value) < 0 || parseFloat(input.value) > 100 || isNaN(parseInt(input.value))) {
                 alert("Vui lòng nhập giá trị phần trăm hợp lệ là số dương không vượt quá 100");
-                return null;
+                check++;
             }
         });
+    }
+    if (check === 0) {
         document.getElementById("btnSubmit").click();
     }
 }

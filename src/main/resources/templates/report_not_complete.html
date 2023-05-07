@@ -65,14 +65,14 @@
         </div>
     </div>
     <nav class="nav_dark">
-    <div style="height: 100%;color: white;width: 80%;display: flex; font-size: 23px">
-        <a class="btn nav-brand" th:href="@{/hicard/home/report/reportbyyear}">Báo cáo doanh thu theo năm</a>
-        <a class="btn nav-brand" th:href="@{/hicard/home/report/reportcomplete}">Báo cáo cá nhân đã hoàn thiện phí</a>
-        <a class="btn nav-master" th:href="@{/hicard/home/report/reportnotcomplete}">Báo cáo cá nhân chưa hoàn thiện phí</a>
-    </div>
+        <div style="height: 100%;color: white;width: 80%;display: flex; font-size: 23px">
+            <a class="btn nav-brand" th:href="@{/hicard/home/report/reportbyyear}">BÁO CÁO TỔNG TIỀN BẢO HIỂM THEO NĂM</a>
+            <a class="btn nav-brand" th:href="@{/hicard/home/report/reportcomplete}">DANH SÁCH CÁ NHÂN CHƯA HOÀN THIỆN PHÍ THEO THÁNG</a>
+            <a class="btn nav-master" th:href="@{/hicard/home/report/reportnotcomplete}">DANH SÁCH CÁ NHÂN CHƯA HOÀN THIỆN PHÍ THEO THÁNG</a>
+        </div>
     </nav>
     <div class="report_info">
-        <h1 style="text-align: center;background-color: white;width: 100%;">BÁO CÁO CÁ NHÂN CHƯA HOÀN THIỆN PHÍ THEO THÁNG</h1>
+        <h1 style="text-align: center;background-color: white;width: 100%;padding-top: 10px;">BÁO CÁO CÁ NHÂN CHƯA HOÀN THIỆN PHÍ THEO THÁNG</h1>
 
         <div style="width: 45%;">
             <span class="report_info_end">Bộ lọc địa chỉ</span>
@@ -110,31 +110,31 @@
             </div>
             <div class="box-footer hide">
                 <button type="submit" class="button login__submit"  style="padding-right: 80px;" id="btnSubmit">
-                    Xem danh sách
+                    Xuất dữ liệu
                 </button>
             </div>
         </form>
         <div class="box-footer">
             <button type="" class="button login__submit"  style="padding-right: 80px;" onclick="checkFailReportOther()">
-                Xem danh sách
+                Xuất dữ liệu
             </button>
         </div>
     </div>
     <script>
         const month = document.getElementById("inputStart");
         month.addEventListener("blur", () => {
-            if (parseInt(month.value) < 1 || parseInt(month.value) >12 || isNaN(parseInt(month.value))) {
+            if (parseInt(month.value) < 1 || parseInt(month.value) >12 || month.value ==="") {
                 alert("Vui lòng nhập giá trị tháng hợp lệ lớn hơn 0 và nhỏ hơn 13");
-            } else if (parseFloat(month.value) % 1 != 0) {
+            } else if (parseFloat(month.value) % 1 !== 0) {
                 alert("Vui lòng nhập giá trị tháng là một số nguyên");
             }
         });
 
         const year = document.getElementById("inputEnd");
         year.addEventListener("blur", () => {
-            if (parseInt(year.value) < 1 || isNaN(parseInt(year.value))) {
-                alert("Vui lòng nhập giá trị năm hợp lệ lớn hơn 0");
-            } else if (parseFloat(year.value) % 1 != 0) {
+            if (parseInt(year.value) < 1992 || year.value==="") {
+                alert("Vui lòng nhập giá trị năm hợp lệ lớn hơn 1991");
+            } else if (parseFloat(year.value) % 1 !== 0) {
                 alert("Vui lòng nhập giá trị năm là một số nguyên");
             }
         });
