@@ -13,7 +13,7 @@ import java.util.Date;
 public class HIReportRequest {
     private String province;
     private String district;
-    private int startYear = 1992 ;
-    private int endYear = 2023;
+    private int startYear  ;
+    private int endYear ;
 
 }
