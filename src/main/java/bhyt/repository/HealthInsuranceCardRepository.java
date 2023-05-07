@@ -24,7 +24,7 @@ public interface HealthInsuranceCardRepository extends JpaRepository<HealthInsur
             " WHERE (''=:province OR card.province = :province) AND (''=:district OR card.district = :district) " +
             " and e.paymentStatus = 'DONE' and MONTH(e.toDate) = :month and YEAR(e.toDate) = :year " +
             "")
-    List<HealthInsuranceBill > reportCompleteByMonth(String province, String district, int month, int year);
+    List<HealthInsuranceBill> reportCompleteByMonth(String province, String district, int month, int year);
 
 //
 @Query("SELECT e FROM HealthInsuranceBill e join " +

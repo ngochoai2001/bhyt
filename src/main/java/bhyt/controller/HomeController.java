@@ -41,7 +41,7 @@ public class HomeController {
             model.addAttribute("result", "Sai thông tin đăng nhập");
             return "login";
         }else{
-            response.sendRedirect("/customers/home");
+            response.sendRedirect("/hicard/home/viewlist");
             return "home";
         }
     }

@@ -7,172 +7,222 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/app.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Main CSS-->
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <!-- or -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 </head>
 
-<body style="background: none;">
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/customers/home">Trang chủ</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<body onload="time()" class="app sidebar-mini rtl">
+<!-- Navbar-->
+<header class="app-header">
+    <!-- Sidebar toggle button-->
+    <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+    <!-- Navbar Right Menu-->
+    <ul class="app-nav">
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/hicard/home/viewlist">Xem danh sách <span class="sr-only">(current)</span></a>
-            </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="/hicard/home/report" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Xuất báo cáo
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/hicard/home/report/reportbyyear">Báo cáo tổng tiền bảo hiểm theo năm</a>
-                    <a class="dropdown-item" href="/hicard/home/report/reportcomplete">Báo cáo danh sách cá nhân đã đóng phí  </a>
-                    <a class="dropdown-item" href="/hicard/home/report/reportnotcomplete">Báo cáo danh sách cá nhân chưa đóng phí</a>
+        <!-- User Menu-->
+        <li><a class="app-nav__item" href="/index.html"><i class='bx bx-log-out bx-rotate-180'></i> </a>
+
+        </li>
+    </ul>
+</header>
+<!-- Sidebar menu-->
+<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+<aside class="app-sidebar">
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="" width="50px" alt="User Image">
+        <div>
+            <p class="app-sidebar__user-name"><b>Admin</b></p>
+            <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+        </div>
+    </div>
+    <hr>
+    <ul class="app-menu">
+        <li><a class="app-menu__item active" href="#"><i class='app-menu__icon bx bx-tachometer'></i><span
+                class="app-menu__label"> Xem danh sách </span></a></li>
+        <li><a class="app-menu__item " th:href="@{/hicard/home/report/reportbyyear}"><i class='app-menu__icon bx bx-id-card'></i> <span
+                class="app-menu__label"> Báo cáo </span></a></li>
+        <li><a class="app-menu__item" th:href="@{/hicard/home/config}"><i class='app-menu__icon bx bx-user-voice'></i><span
+                class="app-menu__label"> Cấu hình </span></a></li>
+    </ul>
+</aside>
+<main class="app-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="app-title" style="justify-content: flex-end">
+                <div id="clock"></div>
+            </div>
+        </div>
+    </div>
+    <div class="report_info">
+        <h1 style="text-align: center;background-color: white;width: 100%;">Danh sách cá nhân tham gia bảo hiểm</h1>
+        <div style="width: 40%;">
+            <span class="report_info_end">Bộ lọc địa chỉ</span>
+                <div>
+                    <label style="width: 110px;">Tỉnh, thành phố</label>
+                    <span style="color: red;font-size: 30px">*</span>
+                    <span>: &nbsp;</span>
+                    <select class="form-select form-select-sm mb-3" style="width: 170px;" id="city" aria-label=".form-select-sm" onclick="createCity()">
+                        <option value="" selected>Chọn tỉnh thành</option>
+                    </select>
                 </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/hicard/home/config">Cấu hình</a>
-            </li>
+                <div>
+                    <label style="width: 110px;">Quận, huyện</label>
+                    <span style="color: red;font-size: 30px">*</span>
+                    <span>: &nbsp;</span>
+                    <select class="form-select form-select-sm mb-3" style="width: 170px;" id="district" aria-label=".form-select-sm" onclick="createDistrict()">
+                        <option value="" selected>Chọn quận huyện</option>
+                    </select>
+                </div>
+        </div>
 
-        </ul>
-        <form class="form-inline my-2 my-lg-0" action="/logout">
-<!--            <span th:text="#{user.name}"></span>-->
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Đăng xuất</button>
-        </form>
+        <div>
+            <span class="report_info_end">Bộ lọc thời gian</span>
+            <form th:action="@{/hicard/home/viewlist/result}" th:object="${request}" method="POST" class="" style="display: flex; flex-wrap: wrap;justify-content: space-between;">
+                <div class="form-group hide">
+                    <label> Student First Name </label>
+                    <span style="color: red;font-size: 30px">*</span>
+                    <input type="text" name="province" id="inputCity" th:field="*{province}" class="form-control" placeholder="Enter Student First Name" />
+                </div>
+                <div class="form-group hide">
+                    <label> Student Last Name </label>
+                    <input type="text" name="district" id="inputDistrict" th:field="*{district}" class="form-control" placeholder="Enter Student Last Name" />
+                </div>
+
+                <div class="form-group" style="padding-right: 80px;">
+                    <label> Ngày bắt đầu </label>
+                    <span class="report_info_title" style="color: red;font-size: 30px">*</span>
+                    <input type="date" name="dateStart" th:field="*{dateStart}" class="form-control" placeholder="Enter Student Last Name" />
+                </div>
+                <div class="form-group"  style="padding-right: 80px;">
+                    <label> Ngày kết thúc</label>
+                    <span class="report_info_title" style="color: red;font-size: 30px">*</span>
+                    <input type="date" name="dateEnd" th:field="*{dateEnd}" class="form-control" placeholder="Enter Student Last Name" />
+                </div>
+                <span>&nbsp;</span>
+                <div class="box-footer">
+                    <button type="submit" class="button login__submit"  style="padding-right: 80px;">
+                        Xem danh sách
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</nav>
-<div class="report_info">
-    <h1 style="text-align: center;background-color: white;width: 100%;">Danh sách cá nhân tham gia bảo hiểm</h1>
-    <a class="nav-brand" th:href="@{/customers/home}"style="width: 6%;font-size: 16px;text-align: center"> BACK </a>
-    <div style="width:10%;">
-    </div>
-
-
-
-    <div style="width: 40%;">
-        <span class="report_info_end">Bộ lọc địa chỉ</span>
-        <div >
-            <label >Tỉnh, thành phố</label>
-            <span style="color: red;font-size: 30px">*</span>
-            <select class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm" onclick="createCity()">
-                <option value="" selected>Chọn tỉnh thành</option>
-            </select>
-        </div>
-        <div >
-            <label >Quận, huyện</label>
-            <span style="color: red;font-size: 30px">*</span>
-            <select class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm" onclick="createDistrict()">
-                <option value="" selected>Chọn quận huyện</option>
-            </select>
-        </div>
-
-    </div>
-    <form th:action="@{/hicard/home/viewlist}" th:object="${request}" method="POST" class="">
-        <div class="form-group">
-            <label> Student First Name </label>
-            <span  style="color: red;font-size: 30px">*</span>
-            <input type="text" name="province" id="inputCity" th:field="*{province}" class="form-control" placeholder="Enter Student First Name" />
-        </div>
-        <div class="form-group">
-            <label> Student Last Name </label>
-            <input type="text" name="district" id="inputDistrict" th:field="*{district}" class="form-control" placeholder="Enter Student Last Name" />
-        </div>
-
-        <div class="form-group">
-            <label> Ngày bắt đầu </label>
-            <span class="report_info_title" style="color: red;font-size: 30px">*</span>
-            <input type="date" name="dateStart"  th:field="*{dateStart}" class="form-control" placeholder="Enter Student Last Name" />
-        </div>
-        <div class="form-group">
-            <label> Ngày kết thúc</label>
-            <span class="report_info_title" style="color: red;font-size: 30px">*</span>
-            <input type="date" name="dateEnd"  th:field="*{dateEnd}" class="form-control" placeholder="Enter Student Last Name" />
-        </div>
-        <div class="box-footer">
-            <button type="submit" class="button login__submit">
-                Xem danh sách
-            </button>
-        </div>
-    </form>
-</div>
-<table class = "table table-striped table-bordered">
-    <thead class = "table-dark">
-    <tr>
-        <th> STT </th>
-        <th> Họ và tên </th>
-        <th> Mã bảo hiểm </th>
-        <th> Căn cước</th>
-        <th> Ngày sinh</th>
-        <th> Giới tính</th>
-        <th> Số điện thoại </th>
-        <th> Ngày tham gia </th>
-        <th> Ngày kết thúc </th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <tr th:each = "cus, i: ${listHICard}">
-        <td th:text="${i.index + 1}"></td>
-        <td th:text = "${cus.name}"></td>
-        <td th:text = "${cus.code}"></td>
-        <td th:text = "${cus.idCardNum}"></td>
-        <td th:text = "${cus.dob}"></td>
-        <td th:text = "${cus.gender}"></td>
-        <td th:text = "${cus.phone}"></td>
-        <td th:text = "${cus.dateStart}"></td>
-        <td th:text = "${cus.dateEnd}"></td>
-    </tr>
-    </tbody>
-</table>
 
 
 
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<script>
-    var citis = document.getElementById("city");
-    var districts = document.getElementById("district");
-    var Parameter = {
-        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-        method: "GET",
-        responseType: "application/json",
-    };
-    var promise = axios(Parameter);
-    promise.then(function(result) {
-        renderCity(result.data);
-    });
-    // var xemds = document.getElementById("district");
-    // xemds.onclick = function (){
-    //     var inputCity = document.getElementById("inputCity");
-    //     var inputDistrict = document.getElementById("inputDistrict");
-    //     var dateStart = document.getElementsByName("dateStart");
-    //     var dateEnd = document.getElementById("dateEnd");
-    //     if(inputCity == undefined){
-    //
-    //     }
-    // };
 
-    function renderCity(data) {
-        for (const x of data) {
-            citis.options[citis.options.length] = new Option(x.Name, x.Id);
-        }
-        citis.onchange = function() {
-            district.length = 1;
-            if (this.value != "") {
-                const result = data.filter(n => n.Id === this.value);
-
-                for (const k of result[0].Districts) {
-                    district.options[district.options.length] = new Option(k.Name, k.Id);
-                }
-            }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        var citis = document.getElementById("city");
+        var districts = document.getElementById("district");
+        var Parameter = {
+            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+            method: "GET",
+            responseType: "application/json",
         };
+        var promise = axios(Parameter);
+        promise.then(function(result) {
+            renderCity(result.data);
+        });
+        // var xemds = document.getElementById("district");
+        // xemds.onclick = function (){
+        //     var inputCity = document.getElementById("inputCity");
+        //     var inputDistrict = document.getElementById("inputDistrict");
+        //     var dateStart = document.getElementsByName("dateStart");
+        //     var dateEnd = document.getElementById("dateEnd");
+        //     if(inputCity == undefined){
+        //
+        //     }
+        // };
 
+        function renderCity(data) {
+            for (const x of data) {
+                citis.options[citis.options.length] = new Option(x.Name, x.Id);
+            }
+            citis.onchange = function() {
+                district.length = 1;
+                if (this.value != "") {
+                    const result = data.filter(n => n.Id === this.value);
+
+                    for (const k of result[0].Districts) {
+                        district.options[district.options.length] = new Option(k.Name, k.Id);
+                    }
+                }
+            };
+
+        }
+    </script>
+    <script th:src="@{/js/app.js}"></script>
+</main>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="js/popper.min.js"></script>
+<script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
+<!--===============================================================================================-->
+<script src="js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="js/main.js"></script>
+<!--===============================================================================================-->
+<script src="js/plugins/pace.min.js"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="js/plugins/chart.js"></script>
+<!--===============================================================================================-->
+<script type="text/javascript">
+    //Thời Gian
+    function time() {
+        var today = new Date();
+        var weekday = new Array(7);
+        weekday[0] = "Chủ Nhật";
+        weekday[1] = "Thứ Hai";
+        weekday[2] = "Thứ Ba";
+        weekday[3] = "Thứ Tư";
+        weekday[4] = "Thứ Năm";
+        weekday[5] = "Thứ Sáu";
+        weekday[6] = "Thứ Bảy";
+        var day = weekday[today.getDay()];
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        nowTime = h + " giờ " + m + " phút " + s + " giây";
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        today = day + ', ' + dd + '/' + mm + '/' + yyyy;
+        tmp = '<span class="date"> ' + today + ' - ' + nowTime +
+            '</span>';
+        document.getElementById("clock").innerHTML = tmp;
+        clocktime = setTimeout("time()", "1000", "Javascript");
+
+        function checkTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
     }
 </script>
-<script th:src="@{/js/app.js}"></script>
 </body>
 
 </html>
