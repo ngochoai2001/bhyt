@@ -69,10 +69,10 @@
       <div class="">
         <h1 style="text-align: center;background-color: white;width: 100%;padding-top: 10px;">CẬP NHẬT THÔNG SỐ CẤU HÌNH</h1>
         <div class="">
-          <form th:action="@{/hicard/home/config}" th:object="${config}" method="POST" style="display: flex;flex-wrap: wrap">
+          <form th:action="@{/hicard/home/config}" th:object="${config}" method="POST" style="display: flex;flex-wrap: wrap" id="formTest">
             <div class="form-group col-md-6">
               <label class="control-label"> Lương cơ sở (VND)</label>
-              <input type="number" name="salary" th:field="*{salary}" class="form-control" step="1" placeholder="Lương cơ sở" th:value="*{salary}" autofocus/>
+              <input type="number" name="salary" th:field="*{salary}" class="form-control" step="1" placeholder="Lương cơ sở" th:value="*{salary}"/>
             </div>
             <div class="form-group col-md-6">
               <label class="control-label"> Tỉ lệ phần trăm mức đóng của người lao động theo mức lương được hưởng (%)</label>
@@ -132,13 +132,13 @@
             </div>
             <div class="box-footer hide" style="width: 100%">
               <button type="submit" class="btn btn-primary" style="margin: auto" id="btnSubmit">
-                Submit
+                Cập nhật
               </button>
             </div>
           </form>
           <div class="box-footer" style="width: 100%;display: flex;">
-            <button type="submit" class="btn btn-primary" style="margin: auto" onclick="checkConfig()">
-              Submit
+            <button type="submit" class="btn btn-primary" style="margin: auto" onclick="checkConfig()" id="btnFake">
+              Cập nhật
             </button>
           </div>
         </div>
@@ -146,24 +146,36 @@
     </div>
   </div>
   <script>
-    let listInput = document.querySelectorAll('input');
-    const listArr = Array.from(listInput);
-    const firstInput = listArr.shift();
-    firstInput.addEventListener('blur', function() {
-      if (parseInt(firstInput.value) < 1 || isNaN(parseInt(firstInput.value))) {
-        alert("Vui lòng nhập giá trị lương cơ sở hợp lệ lớn hơn 0");
-      } else if (parseFloat(firstInput.value) % 1 != 0) {
-        alert("Vui lòng nhập giá trị lương cơ sở là một số nguyên");
-      }
-    });
-    console.log(listArr)
-    listArr.forEach(input => {
-      input.addEventListener('blur', function() {
-        if (parseFloat(input.value) < 0 || parseFloat(input.value) >100 || isNaN(parseInt(input.value))) {
-          alert("Vui lòng nhập giá trị phần trăm hợp lệ là số dương không vượt quá 100");
+    // let listInput = document.querySelectorAll('input');
+    // const listArr = Array.from(listInput);
+    // const firstInput = listArr.shift();
+    // firstInput.addEventListener('blur', function() {
+    //   if (parseInt(firstInput.value) < 1 || isNaN(parseInt(firstInput.value))) {
+    //     alert("Vui lòng nhập giá trị lương cơ sở hợp lệ lớn hơn 0");
+    //   } else if (parseFloat(firstInput.value) % 1 != 0) {
+    //     alert("Vui lòng nhập giá trị lương cơ sở là một số nguyên");
+    //   }
+    // });
+    // console.log(listArr)
+    // listArr.forEach(input => {
+    //   input.addEventListener('blur', function() {
+    //     if (parseFloat(input.value) < 0 || parseFloat(input.value) >100 || isNaN(parseInt(input.value))) {
+    //       alert("Vui lòng nhập giá trị phần trăm hợp lệ là số dương không vượt quá 100");
+    //     }
+    //   });
+    // });
+    const inputs = document.querySelectorAll('input');
+
+    inputs.forEach((input) => {
+      input.addEventListener('keydown', (event) => {
+        if (event.keyCode === 13) {
+          event.preventDefault(); // Ngăn chặn trình duyệt submit form khi nhấn Enter trong bất kỳ ô input nào trong form
+          document.getElementById("btnFake").click();
         }
       });
     });
+
+
   </script>
 
 

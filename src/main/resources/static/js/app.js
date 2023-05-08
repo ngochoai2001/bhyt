@@ -278,13 +278,18 @@ function checkFailReportOther() {
     } else {
         const month = document.getElementById("inputStart");
         const year = document.getElementById("inputEnd");
-        if (month.value ==="" || parseInt(month.value) === 0) {
+        if (month.value ==="" || parseInt(month.value) < 1 || parseInt(month.value) > 12) {
             alert("Vui lòng nhập giá trị tháng hợp lệ lớn hơn 0 và nhỏ hơn 13");
             return null;
-        } else if(year.value ==="" || parseInt(year.value) < 1992) {
+        }else if (parseFloat(month.value) % 1 !== 0) {
+            alert("Vui lòng nhập giá trị tháng là một số nguyên");
+            return null;
+        }else if(year.value ==="" || parseInt(year.value) < 1992) {
             alert("Vui lòng nhập giá trị năm hợp lệ lớn hơn 1991");
             return null;
-        }
+        }else if (parseFloat(year.value) % 1 !== 0) {
+                alert("Vui lòng nhập giá trị năm là một số nguyên");
+              }
         document.getElementById("btnSubmit").click();
     }
 }

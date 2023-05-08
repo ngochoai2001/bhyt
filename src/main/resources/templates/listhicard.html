@@ -65,7 +65,7 @@
         </div>
     </div>
     <div class="report_info">
-        <h1 style="text-align: center;background-color: white;width: 100%;padding-top: 10px;">Danh sách cá nhân tham gia bảo hiểm</h1>
+        <h1 style="text-align: center;background-color: white;width: 100%;padding-top: 10px;">DANH SÁCH CÁ NHÂN THAM GIA BẢO HIỂM</h1>
         <div style="width: 40%;">
             <span class="report_info_end">Bộ lọc địa chỉ</span>
                 <div>
@@ -102,7 +102,7 @@
                 <div class="form-group" style="padding-right: 80px;">
                     <label> Ngày bắt đầu </label>
                     <span class="report_info_title" style="color: red;font-size: 30px">*</span>
-                    <input type="date" name="dateStart" th:field="*{dateStart}" class="form-control" autofocus/>
+                    <input type="date" name="dateStart" th:field="*{dateStart}" class="form-control"/>
                 </div>
                 <div class="form-group"  style="padding-right: 80px;">
                     <label> Ngày kết thúc</label>
@@ -117,14 +117,25 @@
                 </div>
             </form>
             <div class="box-footer">
-                <button type="" class="button login__submit"  style="padding-right: 80px;" onclick="checkFailViewList()">
+                <button type="submit" class="button login__submit"  style="padding-right: 80px;" onclick="checkFailViewList()" id="btnFake">
                     Xuất dữ liệu
                 </button>
             </div>
         </div>
     </div>
 
+    <script>
+        const inputs = document.querySelectorAll('input');
 
+        inputs.forEach((input) => {
+            input.addEventListener('keydown', (event) => {
+                if (event.keyCode === 13) {
+                    event.preventDefault(); // Ngăn chặn trình duyệt submit form khi nhấn Enter trong bất kỳ ô input nào trong form
+                    document.getElementById("btnFake").click();
+                }
+            });
+        });
+    </script>
 
 
 

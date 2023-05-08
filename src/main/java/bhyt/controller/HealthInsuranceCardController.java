@@ -35,10 +35,10 @@ public class HealthInsuranceCardController {
 //    public String index() {
 //        return "index";
 //    }
-    @GetMapping("/hicard/home")
-    public String home() {
-        return "home";
-    }
+//    @GetMapping("/hicard/home")
+//    public String home() {
+//        return "home";
+//    }
 //    @GetMapping("/hicard/home/report")
 //    public String report() { return "report"; }
 

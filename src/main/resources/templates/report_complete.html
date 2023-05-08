@@ -67,7 +67,7 @@
   <nav class="nav_dark">
     <div style="height: 100%;color: white;width: 80%;display: flex; font-size: 23px">
       <a class="btn nav-brand" th:href="@{/hicard/home/report/reportbyyear}">BÁO CÁO TỔNG TIỀN BẢO HIỂM THEO NĂM</a>
-      <a class="btn nav-master" th:href="@{/hicard/home/report/reportcomplete}">DANH SÁCH CÁ NHÂN CHƯA HOÀN THIỆN PHÍ THEO THÁNG</a>
+      <a class="btn nav-master" th:href="@{/hicard/home/report/reportcomplete}">DANH SÁCH CÁ NHÂN HOÀN THIỆN PHÍ THEO THÁNG</a>
       <a class="btn nav-brand" th:href="@{/hicard/home/report/reportnotcomplete}">DANH SÁCH CÁ NHÂN CHƯA HOÀN THIỆN PHÍ THEO THÁNG</a>
     </div>
   </nav>
@@ -102,7 +102,7 @@
 
       <div class="form-group ">
         <label>Tháng </label>
-        <input type="number" name="dateStart" id="inputStart" th:field="*{month}" class="form-control" autofocus/>
+        <input type="number" name="dateStart" id="inputStart" th:field="*{month}" class="form-control"/>
       </div>
       <div class="form-group ">
         <label> Năm </label>
@@ -115,28 +115,38 @@
       </div>
     </form>
     <div class="box-footer">
-      <button type="" class="button login__submit"  style="padding-right: 80px;" onclick="checkFailReportOther()">
+      <button type="submit" class="button login__submit"  style="padding-right: 80px;" onclick="checkFailReportOther()" id="btnFake">
         Xuất dữ liệu
       </button>
     </div>
   </div>
   <script>
-    const month = document.getElementById("inputStart");
-    month.addEventListener("blur", () => {
-      if (parseInt(month.value) < 1 || parseInt(month.value) >12 || month.value === "") {
-        alert("Vui lòng nhập giá trị tháng hợp lệ lớn hơn 0 và nhỏ hơn 13");
-      } else if (parseFloat(month.value) % 1 !== 0) {
-        alert("Vui lòng nhập giá trị tháng là một số nguyên");
-      }
-    });
+    // const month = document.getElementById("inputStart");
+    // month.addEventListener("blur", () => {
+    //   if (parseInt(month.value) < 1 || parseInt(month.value) >12 || month.value === "") {
+    //     alert("Vui lòng nhập giá trị tháng hợp lệ lớn hơn 0 và nhỏ hơn 13");
+    //   } else if (parseFloat(month.value) % 1 !== 0) {
+    //     alert("Vui lòng nhập giá trị tháng là một số nguyên");
+    //   }
+    // });
 
-    const year = document.getElementById("inputEnd");
-    year.addEventListener("blur", () => {
-      if (parseInt(year.value) < 1992 || year.value === "") {
-        alert("Vui lòng nhập giá trị năm hợp lệ lớn hơn 0");
-      } else if (parseFloat(year.value) % 1 !== 0) {
-        alert("Vui lòng nhập giá trị năm là một số nguyên");
-      }
+    // const year = document.getElementById("inputEnd");
+    // year.addEventListener("blur", () => {
+    //   if (parseInt(year.value) < 1992) {
+    //     alert("Vui lòng nhập giá trị năm hợp lệ lớn hơn 0");
+    //   } else if (parseFloat(year.value) % 1 !== 0) {
+    //     alert("Vui lòng nhập giá trị năm là một số nguyên");
+    //   }
+    // });
+    const inputs = document.querySelectorAll('input');
+
+    inputs.forEach((input) => {
+      input.addEventListener('keydown', (event) => {
+        if (event.keyCode === 13) {
+          event.preventDefault(); // Ngăn chặn trình duyệt submit form khi nhấn Enter trong bất kỳ ô input nào trong form
+          document.getElementById("btnFake").click();
+        }
+      });
     });
   </script>
 
