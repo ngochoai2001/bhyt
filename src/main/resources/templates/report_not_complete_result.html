@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>áo cáo cá nhân chưa hoàn thiện phí theo tháng</title>
+    <title>Báo cáo cá nhân chưa hoàn thiện phí theo tháng</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/css/app.css}" />
@@ -48,9 +48,9 @@
     </div>
     <hr>
     <ul class="app-menu">
-        <li><a class="app-menu__item"><i class='app-menu__icon bx bx-tachometer'></i><span
+        <li><a class="app-menu__item" th:href="@{/hicard/home/viewlist}"><i class='app-menu__icon bx bx-tachometer'></i><span
                 class="app-menu__label"> Xem danh sách </span></a></li>
-        <li><a class="app-menu__item active" th:href="@{/hicard/home/report/reportbyyear}"><i class='app-menu__icon bx bx-id-card'></i> <span
+        <li><a class="app-menu__item active" href="#"><i class='app-menu__icon bx bx-id-card'></i> <span
                 class="app-menu__label"> Báo cáo </span></a></li>
         <li><a class="app-menu__item" th:href="@{/hicard/home/config}"><i class='app-menu__icon bx bx-user-voice'></i><span
                 class="app-menu__label"> Cấu hình </span></a></li>
