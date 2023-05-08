@@ -132,7 +132,7 @@ class ConfigServiceTest {
     @Rollback
     public void bothPercentValueSalaryInValid_AfterUpdateFunctionConfigValueMustUnchange(){
         config.setFarmer(101);
-        config.setSalary(12344);
+        config.setSalary(-1);
         testUnsuccessfullUpdateConfig_ConfigMustUnchange(config);
     }
     @Test
