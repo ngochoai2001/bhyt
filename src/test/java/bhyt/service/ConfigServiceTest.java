@@ -101,6 +101,40 @@ class ConfigServiceTest {
         config.setFarmer(101);
         testUnsuccessfullUpdateConfig_ConfigMustUnchange(config);
     }
+
+    @Test
+    @DisplayName("Test config percent value and amt value concurrently,both is valid," +
+            " config value must be update after update function ")
+    @Rollback
+    public void validPercentValueIsAnd_AfterUpdateFunctionConfigValueMustUpdated(){
+        config.setFarmer(100);
+        config.setSalary(12343);
+        testSuccessfullUpdateConfig(config);
+    }
+    @Test
+    @DisplayName("Test config percent value valid, amt value is invalid, config value must be remain after update function ")
+    @Rollback
+    public void percentValueValidSalaryInvalid_AfterUpdateFunctionConfigValueMustUnchange(){
+        config.setFarmer(100);
+        config.setSalary(-1);
+        testUnsuccessfullUpdateConfig_ConfigMustUnchange(config);
+    }
+    @Test
+    @DisplayName("Test config percent value invalid, amt value is valid, config value must be remain after update function ")
+    @Rollback
+    public void percentValueInValidSalaryValid_AfterUpdateFunctionConfigValueMustUnchange(){
+        config.setFarmer(101);
+        config.setSalary(12344);
+        testUnsuccessfullUpdateConfig_ConfigMustUnchange(config);
+    }
+    @Test
+    @DisplayName("Test config percent value valid, amt value is invalid, config value must be remain after update function ")
+    @Rollback
+    public void bothPercentValueSalaryInValid_AfterUpdateFunctionConfigValueMustUnchange(){
+        config.setFarmer(101);
+        config.setSalary(12344);
+        testUnsuccessfullUpdateConfig_ConfigMustUnchange(config);
+    }
     @Test
     @DisplayName("Get config record in database to display config information,value must no be null, exception must not be thrown ")
     @Rollback
@@ -120,41 +154,41 @@ class ConfigServiceTest {
         configService.updateConfig(config);
         // compare new config in data base vs config pass into this function
         Config newConfig = configService.findConfig(1L);
-        assertEquals(newConfig.getSalary(),config.getSalary());
-        assertEquals(newConfig.getWorker(),config.getWorker());
-        assertEquals(newConfig.getRetirement(),config.getRetirement());
-        assertEquals(newConfig.getMaternity(),config.getMaternity());
-        assertEquals(newConfig.getUnemployment(),config.getUnemployment());
-        assertEquals(newConfig.getOther(),config.getOther());
-        assertEquals(newConfig.getFamilyOne(),config.getFamilyOne());
-        assertEquals(newConfig.getFamilyTwo(),config.getFamilyTwo());
-        assertEquals(newConfig.getFamilyThree(),config.getFamilyThree());
-        assertEquals(newConfig.getFamilyFour(),config.getFamilyFour());
-        assertEquals(newConfig.getFamilyFive(),config.getFamilyFive());
-        assertEquals(newConfig.getPoor(),config.getPoor());
-        assertEquals(newConfig.getNearPoor(),config.getNearPoor());
-        assertEquals(newConfig.getStudent(),config.getStudent());
-        assertEquals(newConfig.getFarmer(),config.getFarmer());
+        assertEquals(config.getSalary(),newConfig.getSalary());
+        assertEquals(config.getWorker(),newConfig.getWorker());
+        assertEquals(config.getRetirement(),newConfig.getRetirement());
+        assertEquals(config.getMaternity(),newConfig.getMaternity());
+        assertEquals(config.getUnemployment(),newConfig.getUnemployment());
+        assertEquals(config.getOther(),newConfig.getOther());
+        assertEquals(config.getFamilyOne(),newConfig.getFamilyOne());
+        assertEquals(config.getFamilyTwo(),newConfig.getFamilyTwo());
+        assertEquals(config.getFamilyThree(),newConfig.getFamilyThree());
+        assertEquals(config.getFamilyFour(),newConfig.getFamilyFour());
+        assertEquals(config.getFamilyFive(),newConfig.getFamilyFive());
+        assertEquals(config.getPoor(),newConfig.getPoor());
+        assertEquals(config.getNearPoor(),newConfig.getNearPoor());
+        assertEquals(config.getStudent(),newConfig.getStudent());
+        assertEquals(config.getFarmer(),newConfig.getFarmer());
     }
     public void   testUnsuccessfullUpdateConfig_ConfigMustUnchange(Config config){
         //config in database must not be updated
         //
         Config newConfig = configService.updateConfig(config);;
-        assertNotEquals(newConfig.getSalary(),config.getSalary());
-        assertEquals(newConfig.getWorker(),config.getWorker());
-        assertEquals(newConfig.getRetirement(),config.getRetirement());
-        assertEquals(newConfig.getMaternity(),config.getMaternity());
-        assertEquals(newConfig.getUnemployment(),config.getUnemployment());
-        assertEquals(newConfig.getOther(),config.getOther());
-        assertEquals(newConfig.getFamilyOne(),config.getFamilyOne());
-        assertEquals(newConfig.getFamilyTwo(),config.getFamilyTwo());
-        assertEquals(newConfig.getFamilyThree(),config.getFamilyThree());
-        assertEquals(newConfig.getFamilyFour(),config.getFamilyFour());
-        assertEquals(newConfig.getFamilyFive(),config.getFamilyFive());
-        assertEquals(newConfig.getPoor(),config.getPoor());
-        assertEquals(newConfig.getNearPoor(),config.getNearPoor());
-        assertEquals(newConfig.getStudent(),config.getStudent());
-        assertEquals(newConfig.getFarmer(),config.getFarmer());
+        assertNotEquals(config.getSalary(),newConfig.getSalary());
+        assertEquals(config.getWorker(),newConfig.getWorker());
+        assertEquals(config.getRetirement(),newConfig.getRetirement());
+        assertEquals(config.getMaternity(),newConfig.getMaternity());
+        assertEquals(config.getUnemployment(),newConfig.getUnemployment());
+        assertEquals(config.getOther(),newConfig.getOther());
+        assertEquals(config.getFamilyOne(),newConfig.getFamilyOne());
+        assertEquals(config.getFamilyTwo(),newConfig.getFamilyTwo());
+        assertEquals(config.getFamilyThree(),newConfig.getFamilyThree());
+        assertEquals(config.getFamilyFour(),newConfig.getFamilyFour());
+        assertEquals(config.getFamilyFive(),newConfig.getFamilyFive());
+        assertEquals(config.getPoor(),newConfig.getPoor());
+        assertEquals(config.getNearPoor(),newConfig.getNearPoor());
+        assertEquals(config.getStudent(),newConfig.getStudent());
+        assertEquals(config.getFarmer(),newConfig.getFarmer());
     }
 
 }

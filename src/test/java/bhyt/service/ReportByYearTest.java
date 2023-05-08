@@ -23,12 +23,12 @@ public class ReportByYearTest {
         List<Object[]> expected = expectedResultFrom1992To2023_ThanhXuanHanoi();
 
         assertNotNull(result);
-        assertEquals(result.size(),2);
+        assertEquals(expected.size(), result.size());
 
         for(int i = 0;i<result.size();i++){
             assertNotNull(result.get(i));
-            assertEquals((Integer) result.get(i)[0], expected.get(i)[0]);
-            assertEquals((Double) result.get(i)[1], expected.get(i)[1]);
+            assertEquals( expected.get(i)[0],(Integer) result.get(i)[0]);
+            assertEquals( expected.get(i)[1],(Double) result.get(i)[1]);
         }
     }
     @Test
@@ -37,7 +37,7 @@ public class ReportByYearTest {
         HIReportRequest request = new HIReportRequest("Thành phố Hà Nội","",null, null);
         List<Object[]> result = service.getReportByYear(request);
         assertNotNull(result);
-        assertEquals(result.size(),0);
+        assertEquals(0, result.size());
     }
     @Test
     @DisplayName("Test report by year when only province and district is valid, should return an empty list")
@@ -45,7 +45,7 @@ public class ReportByYearTest {
         HIReportRequest request = new HIReportRequest("Thành phố Hà Nội","Quận Thanh Xuân",null, null);
         List<Object[]> result = service.getReportByYear(request);
         assertNotNull(result);
-        assertEquals(result.size(),0);
+        assertEquals(0,result.size());
 
     }
     @Test
@@ -54,7 +54,7 @@ public class ReportByYearTest {
         HIReportRequest request = new HIReportRequest("","Quận Thanh Xuân",null, null);
         List<Object[]> result = service.getReportByYear(request);
         assertNotNull(result);
-        assertEquals(result.size(),0);
+        assertEquals(0,result.size());
     }
     @Test
     @DisplayName("Test report by year when only  start year is valid, should return an empty list")
@@ -62,7 +62,7 @@ public class ReportByYearTest {
         HIReportRequest request = new HIReportRequest("","",1992, null);
         List<Object[]> result = service.getReportByYear(request);
         assertNotNull(result);
-        assertEquals(result.size(),0);
+        assertEquals(0,result.size());
     }
     @Test
     @DisplayName("Test report by year when only  end year is valid, should return an empty list")
@@ -70,7 +70,7 @@ public class ReportByYearTest {
         HIReportRequest request = new HIReportRequest("","",null, 2023);
         List<Object[]> result = service.getReportByYear(request);
         assertNotNull(result);
-        assertEquals(result.size(),0);
+        assertEquals(0,result.size());
     }
     @Test
     @DisplayName("Test report by year when  start year > end year, should return an empty list")
@@ -78,7 +78,7 @@ public class ReportByYearTest {
         HIReportRequest request = new HIReportRequest("Thành phố Hà Nội","Quận Thanh Xuân",2023, 2000);
         List<Object[]> result = service.getReportByYear(request);
         assertNotNull(result);
-        assertEquals(result.size(),0);
+        assertEquals(0,result.size());
 
     }
     //data set
@@ -92,6 +92,14 @@ public class ReportByYearTest {
         o2[0] = 2001;
         o2[1] = 800000.0;
         result.add(o2);
+        Object[] o3 = new Object[2];
+        o3[0] = 1992;
+        o3[1] = 900000.0;
+        result.add(o3);
+        Object[] o4 = new Object[2];
+        o4[0] = 2020;
+        o4[1] = 900000.0;
+        result.add(o4);
         return result;
     }
 }
